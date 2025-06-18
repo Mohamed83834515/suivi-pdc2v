@@ -1,0 +1,183 @@
+<section ng-init="InitialiseUtilisateurG()">
+  <div class="app-title">
+    <div>
+      <h1><i class="icon fa fa-users mr-2"></i>{{Titre}}</h1>
+      <!-- <p>Edition</p> -->
+    </div>
+    <!-- <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><i class="icon fa fa-users fa-lg"></i></li>
+      <li class="breadcrumb-item"><a href="#/Utilisateur">Utilisateurs</a></li>
+    </ul> -->
+  </div>
+
+    <!-- begin breadcrumb -->
+    <ol class="breadcrumb pull-right">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+          <li class="breadcrumb-item"><a href="#/Dashboard">Tableau de bord</a></li>
+          <li class="breadcrumb-item"><a href="javascript:;">{{Titre}}</a></li>
+          <li class="breadcrumb-item active">Ajout des utilisateurs</li>
+      </ol>
+      <!-- end breadcrumb -->
+    
+      <!-- begin page-header -->
+      <h1 class="page-header"> <small>Ajout des utilisateurs</small></h1>
+      <!-- end page-header -->
+
+       <!-- begin panel -->
+        <div class="panel panel-success">
+            <!-- begin panel-heading -->
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <!-- <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-info" data-click="panel-reload" ng-click="getListeUtilisateur()"><i class="fa fa-redo"></i></a> -->
+                    <!-- <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a> -->
+                    <!-- <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a> -->
+                </div>
+                <h4 class="panel-title">Informations personels</h4>
+            </div>
+            <!-- end panel-heading -->
+            <!-- begin panel-body -->
+            <div class="panel-body">
+                <div class="col-md-12" ng-show="VueCreationCompte=='Etape1'">
+                    <div class="tile">
+                    <!-- <h3 class="tile-title">Informations personels</h3>
+                    <hr> -->
+                    <div class="tile-body py-2">
+                        <form class="form-row" name="FormUser" novalidate>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Profil <span class="text-danger">*</span></label>
+                            <select class="form-control" name="IdProfil" id="IdProfil" ng-model="Utilisateur.IdProfil" required>
+                            <option ng-repeat="Profil in ListeProfil" value="{{Profil.IdProfil}}">{{Profil.Libelle}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Sexe <span class="text-danger">*</span></label>
+                            <select class="form-control" name="Empty2" id="IdProfil" ng-model="Utilisateur.Empty2" required>
+                            <option value="M">M</option>
+                            <option value="F">F</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Nom<span class="text-danger">*</span></label>
+                            <div class="">
+                            <input type="name" name="Nom" class="form-control " placeholder="Nom" ng-model="Utilisateur.Nom" required>
+                            <span style="color:red;" ng-show="FormUser.Nom.$touched && FormUser.Nom.$invalid">champ
+                                obligatoire</span>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Prenoms<span class="text-danger">*</span></label>
+                            <div class="">
+                            <input type="username" name="Prenom" class="form-control" placeholder="Prenoms" ng-model="Utilisateur.Prenom" required>
+                            <span style="color:red;" ng-show="FormUser.Prenom.$touched && FormUser.Prenom.$invalid">Champ obligatoire</span>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6" ng-class="{'has-error': FormUser.$dirty && FormUser.Pseudo.$invalid, 'has-success': FormUser.Pseudo.$valid}">
+                            <label class="control-label">Pseudo<span class="text-danger">*</span></label>
+                            <div class="">
+                            <input type="text" name="Pseudo" class="form-control " placeholder="Pseudo" ng-minlength="6" ng-model="Utilisateur.Pseudo" required>
+                            <span style="color:red;" ng-show="FormUser.Pseudo.$touched && FormUser.Pseudo.$invalid">Champ obligatoire</span>
+                            <span class="text-danger" ng-show="FormUser.Pseudo.$error.minlength"> Pseudo trop court 6 caractères minimum </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6" ng-class="{'has-error': FormUser.$dirty && FormUser.Email.$invalid, 'has-success': FormUser.Email.$valid}">
+                            <label class="control-label ">Email<span class="text-danger">*</span></label>
+                            <div class="">
+                            <input type="email" name="Email" class="form-control " placeholder="email" ng-model="Utilisateur.Email" ng-pattern="/^[a-z]+[A-Za-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>
+                            <span style="color:red;" ng-show="FormUser.Email.$touched && FormUser.Email.$invalid">Champ obligatoire</span>
+                            <span style="color:red;" ng-show="FormUser.Email.$dirty && FormUser.Email.$error.pattern">Format d'email incorrecte</span>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group col-md-6" ng-class="{'has-error': FormUser.$dirty && FormUser.MotDePasse.$invalid, 'has-success': FormUser.MotDePasse.$valid}">
+                            <label class="control-label">Mot de passe<span class="text-danger">*</span></label>
+                            <div class="">
+                            <input type="password" name="MotDePasse" class="form-control" placeholder="******" ng-model="Utilisateur.MotDePasse" ng-minlength="6" maxlength="12"  required>
+                            <span style="color:red;" ng-show="FormUser.MotDePasse.$touched && FormUser.MotDePasse.$invalid">Champ obligatoire</span>
+                            <span class="text-danger" ng-show="FormUser.MotDePasse.$error.minlength"> Mot de passe trop court 6 caractères minimum </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6" ng-class="{'has-error': FormUser.$dirty && FormUser.cf.$invalid || error==true, 'has-success': FormUser.cf.$invalid}">
+                            <label class="control-label">Confirmer mot de passe<span class="text-danger">*</span></label>
+                            <div class="">
+                            <input type="password" name="cf" class="form-control" ng-model="Utilisateur.cf" ng-required="Utilisateur.MotDePasse.length != ''" ng-minlength="6" maxlength="12" ng-change="VerifPass(Utilisateur.MotDePasse,Utilisateur.cf)" placeholder="******" >
+                            </div>
+                            <span style="color:red" ng-show="error==true ">Les mots de passe ne sont pas identiques</span>
+                        </div> -->
+                        <div class="col-md-12">
+                            <div class="note note-warning note-with-right-icon">
+                                <div class="note-icon"><i class="fa fa-lightbulb"></i></div>
+                                <div class="note-content">
+                                  <h4><b>Information !</b></h4>
+                                  <p class="font-weight-bold"> Le mot de passe sera généré et envoyé a l'utilisateur par e-mail suivant les normes standard de mot de passe. <br>
+                                    À la première connexion de celui-ci, il devrait modifier le mot de passe. </p>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="pt-3">
+                            <button name="Valider" value="Valider" class="btn btn-sm btn-success" ng-click="ConfirmerInsertUtilisateurModule()"
+                            type="submit" ng-disabled="FormUser.$invalid || error==true">
+                            <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider
+                        </button>
+                            <!-- <button name="Valider" value="Valider" class="btn btn-sm btn-success" ng-click="EtapeSuivante(2)"
+                            type="submit" ng-disabled="FormUser.$invalid">
+                            <i class="fa fa-fw fa-lg fa-check-circle"></i>Suivant
+                            </button> -->
+                            <a href="#/Utilisateur" type="button" class="btn btn-sm btn-danger">
+                            <i class="fa fa-fw fa-lg fa-times-circle"></i>Annuler
+                            </a>
+                        </div>
+                        </form>
+                    </div>
+            
+                    </div>
+                </div>
+            </div>
+            <!-- end panel-body -->
+        </div>
+        <!-- end panel -->
+
+  <!-- etape 1 ajouter utilisateur -->
+  <div class="row">
+    
+    <!-- <div class="col-md-12" ng-show="VueCreationCompte=='Etape2'">
+      <div class="tile">
+        <h3 class="tile-title">Choisir les modules et sous modules</h3>
+        <hr>
+        <div class="tile-body py-2">
+          <form class="form-row add">
+            
+            <div class="col-md-12" ng-repeat-start="module in ListeModuleParent">
+              <div class="inputGroup">
+                <input type='checkbox' data-toggle='collapse' ng-model="module.etat" ng-click="getlisteSousModule(module.IdModule)" data-target='#m{{module.IdModule}}'> 
+                <label for="option1">{{module.Libelle}}</label>
+              </div>
+            </div>
+            
+            <div class="col-md-12" ng-repeat-end id='m{{module.IdModule}}' class='collapse div1'>
+              <div ng-repeat="sousModule in ListeSousModule[module.IdModule]">
+                  <input class="ml-3" type='checkbox' ng-click="getListeDroitSousModule(sousModule.IdModule)" ng-model="sousModule.etat"> {{sousModule.Libelle}}
+
+                  <div ng-repeat="Droit in ListeDroitSousModule[sousModule.IdModule] | orderBy: 'IdDroit' as filtered_result track by $index" ng-if="sousModule.etat == true">
+                    <input class="ml-5" type='checkbox' ng-model="Droit.etat"> {{Droit.Libelle}}
+                </div>
+              </div>
+            </div>  
+            <div class="pt-3">
+              <button name="Valider" value="Valider" class="btn btn-sm btn-success" ng-click="ConfirmerInsertUtilisateurModule()"
+              type="submit" ng-disabled="FormUser.$invalid || error==true">
+              <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider
+            </button>
+            <a href="" ng-click="EtapeSuivante(1)" type="button" class="btn btn-sm btn-danger">
+              <i class="fa fa-fw fa-lg fa-times-circle"></i>Annuler
+            </a>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+
+    </div> -->
+    <!-- <div class="clearix"></div> -->
+  </div>
+  
+</section>

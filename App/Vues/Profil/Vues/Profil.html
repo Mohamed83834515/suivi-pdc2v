@@ -1,0 +1,146 @@
+<section>
+    <section ng-init="InitialiseProfils()">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-inverse">
+                    <div class="panel-heading">
+                        <div class="panel-heading-btn">
+                            <a href="javascript:;" title="Afficher" data-toggle="modal" data-target="#exampleModal" class="btn btn-white"
+                                style="margin-top: -0.5rem;"><i class="fas fa-lock"></i>
+                                Modifier le mot de passe
+                            </a>
+                            <!-- <!- <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a> -> -->
+                        </div>
+                        <h4 class="panel-title text-uppercase">Profil Utilisateur
+                        </h4>
+                    </div>
+                    <style>
+                        .t-grey {
+                            font-size: 18px !important;
+                            font-weight: 500 !important;
+                            color: white !important;
+                        }
+
+                        .circle-blue {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            width: 70px;
+                            /* Ajustez la taille du cercle selon votre besoin */
+                            height: 70px;
+                            /* Ajustez la taille du cercle selon votre besoin */
+                            background-color: #5656f3;
+                            border-radius: 50%;
+                            margin: 0 auto;
+                            /* Centre le cercle horizontalement */
+                        }
+
+                        .circle-blue span {
+                            color: white;
+                            text-transform: uppercase;
+                            font-size: 24px;
+                            /* Ajustez la taille du texte selon votre besoin */
+                        }
+                    </style>
+                    <div class="panel-body mt-3 bg-light" style="background-color: #e6e6e6 !important;">
+                        <br>
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <div class="col-lg-4">
+                                    <div class="circle-blue text-center">
+                                        <span>{{getFirstCharacter(ListeUsersId.nom)}} {{getFirstCharacter(ListeUsersId.prenom)}}  </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mt-3">
+                                    <label class="form-control"  type="text" required
+                                        ng-required="true" name="nom_utilisateur">{{ListeUsersId.nom}}</label>
+                                </div>
+                                <div class="col-lg-4 mt-3">
+                                    <label class="form-control"  type="text" required
+                                        ng-required="true" name="prenom_utilisateur">{{ListeUsersId.prenom}}</label>
+                                </div>
+                                <div class="col-lg-4 mt-3">
+                                    <label class="form-control"  type="text" required
+                                        ng-required="true" name="nom_utilisateur">{{ListeUsersId.email}}</label>
+                                </div>
+                                <div class="col-lg-4 mt-3">
+                                    <label class="form-control" type="text" required
+                                        ng-required="true" name="prenom_utilisateur">{{ListeUsersId.contact}}</label>
+                                </div>
+                                <div class="col-lg-4 mt-3">
+                                    <label class="form-control" type="text" required
+                                        ng-required="true" name="prenom_utilisateur">{{ListeUsersId.fonction}}</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color: #168e37 !important;">
+                                    <h5 class="modal-title text-white" id="exampleModalLabel">Mise à jour du mot de passe
+                                    </h5>
+                                    <button type="button" ng-click="InitialiseActivite()" class="close"
+                                        data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form name="FormMotif1" novalidate>
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                               
+                                                <div class="col-lg-12"> 
+                                                    <input class="form-control" ng-model="Motif.Password" type="password"
+                                                        required ng-required="true" name="date_suivi" placeholder="Mot de passe ">
+                                                    <span style="color:red;"
+                                                        ng-show="FormMotif1.date_suivi.$touched && FormMotif1.date_suivi.$invalid">Champ
+                                                        obligatoire ou caractère invalide</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <div class="col-md-12">
+                                                <div class="form-group row">
+                                                    <div class="col-lg-12">
+                                                        <input class="form-control" name="resultats" type="password"
+                                                            placeholder="confirmation"ng-model="Motif.ConPassword"
+                                                            ng-pattern="regexCote" required>
+                                                        <span style="color:red;"
+                                                            ng-show="FormMotif1.resultats.$touched && FormMotif1.resultats.$invalid">Champ
+                                                            obligatoire ou caractère invalide</span>
+                                                        <span style="color:red;"
+                                                            ng-show="Motif.Password != Motif.ConPassword">la confirmation ne correspond pas </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
+                                       
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button name="Valider" value="Valider" ng-disabled="FormMotif1.$invalid || Motif.Password != Motif.ConPassword"
+                                        ng-click="getAlertValidation()"
+                                        style="background-color: #168e37 !important;" class="btn text-white"
+                                        type="submit">
+                                        <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider
+                                    </button>
+
+                                    <button data-toggle="modal" data-target="#exampleModal1" class="btn btn-danger"
+                                        data-dismiss="modal" aria-label="Close">
+                                        <i class="fa fa-fw fa-lg fa-times-circle"></i><span
+                                            aria-hidden="true">Annuler</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

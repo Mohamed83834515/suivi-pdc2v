@@ -1,0 +1,1458 @@
+<section ng-init="InitialiseDashboardG()">
+
+  <!-- begin breadcrumb -->
+  <ol class="breadcrumb pull-right">
+      <li class="breadcrumb-item"><a href="javascript:;">Accueil</a></li>
+      <li class="breadcrumb-item"><a href="javascript:;">Tableau de bord</a></li>
+      <!-- <li class="breadcrumb-item active">Dashboard v2</li> -->
+  </ol>
+  <!-- end breadcrumb -->
+  <!-- begin page-header -->
+  <h1 class="page-header font-weight-bold" style="color: #1565C0;"> BIENVENUE </h1>
+  <!-- end page-header -->
+  <!-- begin row -->
+  <div class="row">
+      <style>
+          .t-grey{
+              font-size: 18px !important; font-weight: 500 !important;color: white !important;
+          }
+          
+      </style>
+      <!-- begin col-3 -->
+      <div class="col-lg-3 col-md-6">
+          <div class="widget widget-stats bg-gradient-teal">
+              <div class="stats-icon stats-icon-lg"><i class="fa fa-globe fa-fw"></i></div>
+              <div class="stats-content">
+                  <div class="stats-title text-white t-grey" >Nombre<br> d'activités prévus</div>
+                  <div class="stats-number">{{ListeActivite.activites.length}}</div>
+                  <div class="stats-progress progress">
+                      <div class="progress-bar" style="width: 100%;"></div>
+                  </div>
+                  <!-- <div class="stats-desc">Better than last week (70.1%)</div> -->
+              </div>
+          </div>
+      </div>
+      <!-- end col-3 -->
+      <!-- begin col-3 -->
+      <!-- <div class="col-lg-2 col-md-6">
+          <div class="widget widget-stats bg-gradient-blue">
+              <div class="stats-icon stats-icon-lg"><i class="fa fa-dollar-sign fa-fw"></i></div>
+              <div class="stats-content">
+                  <div class="stats-title">Nonbre<br> d'Activité en attente</div>
+                  <div class="stats-number">{{CompteAttente}}</div>
+                  <div class="stats-progress progress">
+                      <div class="progress-bar" style="width: 100%;"></div>
+                  </div>
+              </div>
+          </div>
+      </div> -->
+      <!-- end col-3 -->
+      <!-- begin col-3 -->
+      <!-- <div class="col-lg-2 col-md-6">
+          <div class="widget widget-stats bg-gradient-purple">
+              <div class="stats-icon stats-icon-lg"><i class="fa fa-archive fa-fw"></i></div>
+              <div class="stats-content">
+                  <div class="stats-title">Nombre<br> d'Activité realisées</div>
+                  <div class="stats-number">{{CompteSuivi}}</div>
+                  <div class="stats-progress progress">
+                      <div class="progress-bar" style="width: 100%;"></div>
+                  </div>
+              </div>
+          </div>
+      </div> -->
+      <div class="col-lg-3 col-md-6">
+          <div class="widget widget-stats bg-orange">
+              <div class="stats-icon stats-icon-lg"><i class="fa fa-globe fa-fw"></i></div>
+              <div class="stats-content">
+                  <div class="stats-title t-grey">Nombre<br> d'activité réalisés</div>
+                  <div class="stats-number">{{get_Tache_Valide()}}</div>
+                  <div class="stats-progress progress">
+                      <div class="progress-bar" style="width: 100%;"></div>
+                  </div>
+                  <!-- <div class="stats-desc">Better than last week (70.1%)</div> -->
+              </div>
+          </div>
+      </div>
+      <!-- end col-3 -->
+      <!-- begin col-3 -->
+      <div class="col-lg-3 col-md-6">
+          <div class="widget widget-stats bg-gradient-blue">
+              <div class="stats-icon stats-icon-lg"><i class="fa fa-dollar-sign fa-fw"></i></div>
+              <div class="stats-content">
+                  <div class="stats-title t-grey">Nombre<br> d'activité en cours</div>
+                  <div class="stats-number">{{get_Tache_Attente()}}</div>
+                  <div class="stats-progress progress">
+                      <div class="progress-bar" style="width: 100%;"></div>
+                  </div>
+                  <!-- <div class="stats-desc">Better than last week (40.5%)</div> -->
+              </div>
+          </div>
+      </div>
+      <!-- end col-3 -->
+      <!-- begin col-3 -->
+      <div class="col-lg-3 col-md-6">
+          <div class="widget widget-stats bg-red">
+              <div class="stats-icon stats-icon-lg"><i class="fa fa-archive fa-fw"></i></div>
+              <div class="stats-content">
+                  <div class="stats-title t-grey">Nombre<br>d'activités échues</div>
+                  <div class="stats-number">{{get_Tache_Echus()}}</div>
+                  <div class="stats-progress progress">
+                      <div class="progress-bar" style="width: 100%;"></div>
+                  </div>
+                  <!-- <div class="stats-desc">Better than last week (76.3%)</div> -->
+              </div>
+          </div>
+      </div>
+      <!-- end col-3 -->
+      <!-- begin col-3 -->
+      <!-- end col-3 -->
+  </div>
+  <div class="row">
+      <div class="col-lg-12">
+          <div class="panel-body">
+              <div class="d-flex bd-highlight mb-3">
+                  <div class="p-2 mr-auto bd-highlight">
+                      <select name="" ng-model="numeroAfficher" class="custom-select custom-select-sm">
+                          <option selected value="5">5</option>
+                          <option value="10">10</option>
+                          <option value="25">25</option>
+                          <option value="50">50</option>
+                          <option value="100">100</option>
+                      </select>
+                  </div>
+                  <div class="p-2 bd-highlight">
+  
+                      <a class="btn btn-sm btn-outline-success" type="button" data-click="panel-reload"
+                          ng-click="" title="Actualiser" href=""><i class="fa fa-refresh"></i></a>
+                  </div>
+                  <div class="p-2 bd-highlight">
+                      <input type="search" class="form-control form-control-sm" title="Actualiser" ng-keyup="myFunction()"
+                          id="numero" ng-model="numero" placeholder="recherche">
+                  </div>
+              </div>
+              <!-- Button trigger modal -->
+  
+  
+              <!-- Modal -->
+  
+              <table id="" class="table table-striped table-bordered">
+                  <thead>
+                      <tr>
+                          <th>Code</th>
+                          <th>Intitulés</th>
+                          <th>Acteur (Responsable de suivi )</th>
+                          <th>Acteur (Responsable UCP)</th>
+                          <th>Suivi Activités</th>
+                          <th>Suivi Decaissements </th>
+                          <th>Suivi Indicateurs </th>
+                          <th>Observation Générale</th>
+                          <!-- <th width="15%">Date de suivi(jj/mm/aa)</th>
+                          <th width="15%">Sources de verification</th>
+                          <th>Observation</th>
+                          <th>Action</th> -->
+                      </tr>
+                  </thead>
+  
+                  <tbody>
+                      <tr class="odd gradeX"
+                          dir-paginate="activite in ListeActivite.activites|itemsPerPage:numeroAfficher|filter:numero">
+                          <td>{{activite.code_activite_ptba}}</td>
+                          <td>{{activite.intitule_activite_ptba}}</td>
+                          <td> 
+                              
+                              {{getStructure(activite.acteur_conserne)}} 
+                              <!-- {{ getFonction(activite.executant) }} 
+                              <label for="" ng-repeat="users in ListeActivite1" ng-if="activite.executant === users.id_personnel">
+                                  
+                              -->
+                          </td>
+                          <td>
+                              
+                              {{activite.responsable}}
+                              <!-- {{ getNom(activite.executant) }} 
+                              {{ getPrenom(activite.executant) }} -->
+                          </td>
+                          <td class="text-center">
+                              <label href="" data-toggle="modal" data-target="#exampleModal1" ng-click="getSuiviActivite(activite.id_ptba)"> <label for="" class="text-dark">{{getLastEtat(activite.id_ptba)}}</label>
+                                  <div >
+                                      <label ng-if="getTache(activite.id_ptba) != null">
+                                          <a ng-if="getTache(activite.id_ptba) == 'Achevé'" style="color: #168E37; text-align: center !important;justify-content: center;"  href="">({{getTache(activite.id_ptba)}})</a>  
+                                          <a ng-if="getTache(activite.id_ptba) == 'En cours'" style="color: #E79300;" href="">({{getTache(activite.id_ptba)}})</a>  
+                                          <a ng-if="getTache(activite.id_ptba) == 'Non déterminé'" style="color: #da0f0f;" href="">({{getTache(activite.id_ptba)}})</a>  
+                                        </label> 
+                                        <a ng-if="getTache(activite.id_ptba) == null && getTacheCount(activite.id_ptba)!=0" style="color: #da0f0f;" href="">(Non determiné)</a> 
+                                        <a ng-if="getTacheCount(activite.id_ptba) == 0" style="color: #da0f0f;" href="">(Aucun suivi)</a> 
+                                  </div>
+                                 
+                              </label>
+                          </td>
+                          <td class="text-center">
+                              <label  data-toggle="modal" data-target="#exampleModal11" ng-click="getMaTache(activite.id_ptba)" style="text-align: center !important;">
+                                  <a href="" ng-if="getTache1(activite.id_ptba) * 100 / activite.cout != 0">
+                                      {{ getTache1(activite.id_ptba) * 100 / activite.cout | number:2}} % 
+                                  </a>
+                                  <a href="" ng-if="getTache1(activite.id_ptba) * 100 / activite.cout == 0">
+                                      0  décaissé
+                                  </a>
+                              </label>
+                          </td>
+                          <td>
+                              <label for="">
+                              <a href="" data-toggle="modal" data-target="#exampleModal111" ng-click="getTache3(activite.id_ptba,activite.observation)"> <i class="fas fa-pencil-square-o fa-1x"></i> Editer</a>
+                              </label>
+                              <!-- <label for="" ng-if="activite.responsable !== nom1">
+                              <a href="" style="color: #cf0d0d;"> <i class="fas fa-exclamation-circle fa-2x"></i> </a>
+                              </label> -->
+                          </td>
+                          <td>
+                              <label for="" ng-if="activite.responsable === nom1">
+                              <a href=""  ng-click="getTache2(activite.id_ptba,activite.observation)"> <i class="fas fa-pencil-square-o fa-1x"></i> Editer</a>
+                              </label>
+                              <label for="" ng-if="activite.responsable !== nom1">
+                              <a href="" style="color: #cf0d0d;"> <i class="fas fa-exclamation-circle fa-2x"></i> </a>
+                              </label>
+                          </td>
+                          <!-- <td>
+                              <a href="" style="color: #e79300; font-size: 20px; padding: 5px" ng-click="Motif.IdTache = activite.id_ptba" data-toggle="modal" data-target="#exampleModal">
+                                  <i class="fas fa-plus-circle"></i>
+                              </a>
+                          </td>
+                          <td>
+                              <a href="" style="color: #e79300; font-size: 20px; padding: 5px" ng-click="Motif.IdTache = activite.id_ptba" data-toggle="modal" data-target="#exampleModall">
+                                  <i class="fas fa-plus-circle"></i>
+                              </a>
+                          </td> -->
+  
+                      </tr>
+                  </tbody>
+              </table>
+              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                      <div class="modal-header" style="background-color: #168e37 !important;">
+                          <h5 class="modal-title text-white" id="exampleModalLabel">Nouvelle Tâche</h5>
+                          <button type="button" ng-click="InitialiseDashboardG()" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <style>
+                          .row > [class^="col-"]{
+                              margin-bottom: -5px;
+                          }
+                      </style>
+                      <div class="modal-body">
+                          <form name="FormMotif11" novalidate>
+                              <div class="row">
+                                  <!-- Premier groupe de champs -->
+                                  <div class="col-md-6">
+                                      <div class="form-group">
+                                          <!-- <label for="message-text" class="col-form-label">Réalisation {{Motif.CodeTache}}  <span
+                                                  style="color:red;"> *</span></label> -->
+                                          <input type="hidden" class="form-control" ng-value="{{Motif.Nlot}}" name="Motif"
+                                              placeholder="Libelle" ng-model="Motif.Nlot" ng-pattern="regexCote" required>
+                                          <input type="hidden" class="form-control" ng-value="{{id_activite_ptba_1}}"
+                                              name="Motif" placeholder="Libelle" ng-model="Motif.IdTache"
+                                              ng-pattern="regexCote" required>
+                                          <input type="hidden" class="form-control" ng-value="{{Motif.CodeTache}}"
+                                              name="Motif" placeholder="Libelle" ng-model="Motif.CodeTache"
+                                              ng-pattern="regexCote" required>
+                                          
+                                      </div>
+                                  </div>
+                                 
+                              </div>
+                              
+                              <div class="row">
+                                  <div class="col-md-12">
+                                      <div class="form-group row">
+                                          <label for="message-text" class="col-form-label col-lg-3">Date de suivi<span
+                                              style="color:red;"> *</span></label>
+                                          <div class="col-lg-9">
+                                              <input class="form-control" ng-model="Motif.DateReelle" name="DateReelle"
+                                              type="date" required
+                                              ng-model-options="{ 'timezone': 'UTC', 'format': 'yyyy-MM-dd' }">
+                                              <span style="color:red;"
+                                              ng-show="FormMotif11.DateReelle.$touched && FormMotif11.DateReelle.$invalid">Champ
+                                              obligatoire ou caractère invalide
+                                              </span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <!-- Premier champ textarea : {{Motif.Difficultes}}-->
+                                  <div class="col-md-12">
+                                      <div class="form-group row">
+                                          <label for="message-text" class="col-form-label col-lg-3">Etat d'avancement</label>
+                                          <div class="col-lg-9">
+                                              <textarea class="form-control" name="Observation" placeholder="Etat d'avancement"
+                                                  ng-value="{{Motif.Observation}}" ng-model="Motif.Observation"
+                                                  ng-pattern="regexCote" required></textarea>
+                                                  <span style="color:red;"
+                                                  ng-show="FormMotif11.Observation.$touched && FormMotif11.Observation.$invalid">Champ
+                                                  obligatoire ou caractère invalide</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-12">
+                                      <div class="form-group row">
+                                          <label for="message-text" class="col-form-label col-lg-3">Source de vérification</label>
+                                          <div class="col-lg-9">
+                                              <input type="file" class="form-control" name="file" placeholder="Libelle"
+                                                  id="file">
+                                          </div>
+                                      </div>
+  
+                                  </div>
+                                  <!-- statut Activité {{Motif.StatutTache}}-->
+                                  <div class="col-md-12">
+                                      <div class="form-group row"> 
+                                          <label for="message-text" class="col-form-label col-lg-3">Statut de l'activité  <span
+                                              style="color:red;"> *</span></label>
+                                          <div class="col-lg-9">
+                                              <select class="form-control" name="selectChoice" ng-model="Motif.StatutTache"
+                                              required>
+  
+                                              <option value="Non déterminé">Non déterminé</option>
+                                              <option value="En cours">En cours</option>
+                                              <option value="Achevé">Achevé</option>
+                                              </select>
+                                              <span style="color:red;"
+                                              ng-show="FormMotif11.selectChoice.$touched && FormMotif11.selectChoice.$invalid">Champ
+                                              obligatoire ou caractère invalide</span>
+                                          </div>
+                                      </div>
+                                      
+                                  </div>
+                                  <div class="col-md-12">
+                                      <div class="form-group row">
+                                          <label for="message-text" class="col-form-label col-lg-3">Difficultés </label>
+                                          <div class="col-lg-9">
+                                              <textarea type="text" class="form-control" name="Motif" placeholder="Difficultés" ng-value="Motif.Difficultes"
+                                                  ng-model="Motif.Difficultes" ng-pattern="regexCote">
+                                              </textarea>
+                                          </div>
+                                          </span>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-12">
+                                      <div class="form-group row">
+                                          <label for="message-text" class="col-form-label col-lg-3">Piste de solution  </label>
+                                          <div class="col-lg-9">
+                                              <textarea type="text" class="form-control" name="Motif" placeholder="Piste de solution"
+                                                  ng-model="Motif.PisteSolutions" ng-pattern="regexCote"></textarea>
+                                          </div>
+  
+                                      </div>
+                                  </div>
+                                  <!-- Deuxième champ textarea -->
+                                  
+                              </div>
+  
+                             
+                          </form>
+                      </div>
+                      <div class="modal-footer">
+                          <button name="Valider" value="Valider" ng-disabled="FormMotif11.$invalid" ng-click="ValiderEditionTache(id_activite_ptba_1)" class="btn" style="background-color: #168e37;color: white;"
+                              type="submit"  >
+                              <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider
+                          </button>
+  
+                          <button ng-click="getTache(id_activite_ptba_1)" class="btn btn-danger"  data-toggle="modal" data-target="#exampleModal1" data-dismiss="modal" aria-label="Close">
+                              <i class="fa fa-fw fa-lg fa-times-circle"></i><span aria-hidden="true">Annuler</span>
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                  <div class="modal-header"style="background-color:#168E37; color: white !important;">
+                      <h5 class="modal-title" id="exampleModalLabel">
+                          <label class="text-white text-center" ng-repeat="activite in ListeActivite.activites" ng-if="id_activite_ptba_1 === activite.id_ptba">
+                              {{activite.code_activite_ptba}}: {{activite.intitule_activite_ptba}}
+                          </label>
+                      </h5>
+                       <a href="" ng-if="showbutton1(id_activite_ptba_1) === 2 || suividata.length === 0" style="color: white;background-color: black; font-size: 20px; padding: 5px" ng-click="InitialiseDashboardG();Motif.IdTache = id_activite_ptba_1" class="btn-sm btn col-lg-2"  data-toggle="modal" data-target="#exampleModal" data-dismiss="modal">
+                              <i class="fas fa-plus-circle"> Nouveau</i> 
+                        </a> 
+                  </div>
+                  <div class="modal-body">
+                      <table id="" class="table table-striped table-bordered">
+                          <thead>
+                              <tr>
+                                  <!-- <th>Code </th> -->
+                                  <th width="130">Statut</th>
+                                  <th>Etat d'avancement</th>
+                                  <th width="110">Date de suivi</th>
+                                  <th>Difficultés</th>
+                                  <th width="150">Action</th>
+                                   
+                              </tr>
+                          </thead>
+                          <tbody>
+  
+                              <tr class="odd gradeX" ng-repeat="Motif in suividata">
+                                  <!-- <td>{{Motif.code_suivi}} {{Motif.etat}}</td> -->
+                                  <td>{{Motif.statut_activite}}</td>
+                                  <td>{{Motif.observation}}</td>
+                                  <td>{{Motif.date_suivi}}</td>
+                                  <td>{{ Motif.difficultes_rencontrees}}</td>
+                                   <td>
+                                      <!-- <div ng-repeat="activite in ListeActivite.activites" ng-if="activite.responsable === nom1 || activite.executant === nom1 && Motif.id_activite_ptba === activite.id_ptba"> -->
+                                          <div ng-if="Motif.etat != 1">
+                                              <a href="" ng-click="getTacheById(Motif.id_suivi)" title="Modifier" data-toggle="modal"
+                                              data-target="#exampleModal3" data-dismiss="modal">
+                                              <i class="fa fa-pencil-square-o mr-2" style="color:#231dd9;font-size: 20px;"></i>
+                                              </a>
+                                              <a href="" ng-click="confirmDelete(Motif)" title="Supprimer">
+                                              <i class="fas fa-trash-alt mr-2" style="color:#cf0d0d;font-size: 20px;"></i>
+                                              </a>
+                                              <label for=""  ng-repeat="activite in ListeActivite.activites" ng-if="activite.id_ptba === Motif.id_activite_ptba">
+                                                  <label for="" ng-if="activite.responsable === nom1">
+                                                      <a href=""  ng-click="getAlertValidationTache(Motif.id_suivi)" title="Valider"> <i class="fas fa-check-circle fa-2x"></i> </a>
+                                                  </label>
+                                              </label>
+                                          </div>
+                                      <!-- </div> -->
+                                      <div ng-if="Motif.etat == 1">
+                                          <label>
+                                              <i class="fas fa-check mr-2" style="color:#168E37;font-size: 20px;" aria-hidden="true"> validée</i> 
+                                          </label>
+                                      </div>
+                              </td>
+                                 
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+                  <div class="modal-footer">
+                      <!-- <button type="button" class="btn btn-seocndary"
+                          data-dismiss="modal">Close</button> -->
+                      <button type="button" style="background-color: #168E37; color: white;" data-dismiss="modal" class="btn"> <i class="fas fa-close"> </i> Fermer</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                  <div class="modal-header" style="background-color: #168e37 !important;">
+                      <h5 class="modal-title text-white" id="exampleModalLabel">Modification Tâche</h5>
+                      <button type="button" ng-click="InitialiseDashboardG()" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <form name="FormMotif" novalidate>
+                          <div class="row">
+                              <!-- Premier groupe de champs -->
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                      <!-- <label for="message-text" class="col-form-label">Réalisation {{Motif.CodeTache}}  <span
+                                              style="color:red;"> *</span></label> -->
+                                      <input type="hidden" class="form-control" ng-value="{{Motif.Nlot}}" name="Motif"
+                                          placeholder="Libelle" ng-model="Motif.Nlot" ng-pattern="regexCote" required>
+                                      <input type="hidden" class="form-control" ng-value="{{Motif.IdTache}}"
+                                          name="Motif" placeholder="Libelle" ng-model="Motif.IdTache"
+                                          ng-pattern="regexCote" required>
+                                      <input type="hidden" class="form-control" ng-value="{{Motif.CodeTache}}"
+                                      name="Motif" placeholder="Libelle" ng-model="Motif.CodeTache"
+                                      ng-pattern="regexCote" required>
+                                  </div>
+                                  <!-- <div class="form-group">
+                                      <label for="message-text" class="col-form-label">Date de suivi<span
+                                              style="color:red;"> *</span></label>
+                                      <input class="form-control no-placeholder" ng-model="Motif.DateReelle"
+                                          type="date" required
+                                          ng-model-options="{ 'timezone': 'UTC', 'format': 'yyyy-MM-dd' }">
+                                  </div> -->
+                              </div>
+                              
+                          </div>
+  
+                          <div class="row">
+                              <!-- Premier champ textarea : {{Motif.Difficultes}}-->
+                              <div class="col-md-12">
+                                  <div class="form-group row" >
+                                      <label for="message-text" class="col-form-label col-lg-3">Date de suivi<span
+                                          style="color:red;"> *</span></label>
+                                      <div class="col-lg-9">
+                                          <input class="form-control no-placeholder" ng-model="Motif.DateReelle"
+                                          type="text" required ng-value="{{Motif.DateReelle}}"
+                                          ng-model-options="{ 'timezone': 'UTC', 'format': 'yyyy-MM-dd' }">
+                                          <span style="color:red;"
+                                              ng-show="FormMotif.Motif.$dirty && FormMotif.Motif.$invalid">Champ
+                                              obligatoire ou caractère invalide
+                                          </span>
+                                      </div>
+                                  </div>
+                                  
+                              </div>
+                              <!-- Deuxième champ textarea -->
+                              <div class="col-md-12">
+                                  <div class="form-group row">
+                                      <label for="message-text" class="col-form-label col-lg-3">Etat d'avancement</label>
+                                      <div class="col-lg-9">
+                                          <textarea class="form-control" name="Motif" placeholder="Libelle"
+                                          ng-value="{{Motif.Observation}}" ng-model="Motif.Observation"
+                                          ng-pattern="regexCote" required></textarea>
+  
+                                      </div>
+                                      
+                                  </div>
+                              </div>
+                              <div class="col-lg-12">
+                                  <div class="form-group row">
+                                  <label for="message-text" class="col-form-label col-lg-3">Source de vérification</label>
+                                  <div class="col-lg-9">
+                                      <input type="file" class="form-control" name="file12" placeholder="Libelle"
+                                      id="file12" required>
+                                  </div>
+                              </div>
+  
+                              </div>
+                              <div class="col-lg-12">
+                                  <div class="form-group row">
+                                      <label for="message-text" class="col-form-label col-lg-3">Statut de l'activité  <span
+                                              style="color:red;"> *</span></label>
+                                      <div class="col-lg-9">
+                                          <select class="form-control" name="selectChoice" ng-model="Motif.StatutTache"
+                                          required>
+      
+                                          <option value="Non déterminé">Non déterminé</option>
+                                          <option value="En cours">En cours</option>
+                                          <option value="Achevé">Achevé</option>
+                                          </select>
+                                      </div>
+                                            
+                                  </div>
+                              </div>    
+                              
+                              <div class="col-md-12">
+                                  <div class="form-group row">
+                                      <label for="message-text" class="col-form-label col-lg-3">Difficultés </label>
+                                      <div class="col-lg-9">
+                                          <textarea type="text" class="form-control" cols="100" rows="2" name="Motif" placeholder="Libelle" ng-value="Motif.Difficultes"
+                                              ng-model="Motif.Difficultes" ng-pattern="regexCote" required>
+                                          </textarea>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+  
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group row">
+                                      <label for="message-text" class="col-form-label col-lg-3">Piste de solution  </label>
+                                      <div class="col-lg-9">
+                                          <textarea type="text" class="form-control" name="Motif" placeholder="Libelle"
+                                              ng-model="Motif.PisteSolutions" ng-pattern="regexCote" required>
+                                          </textarea>
+                                      </div>
+  
+                                  </div>
+                              </div>
+                          </div>
+  
+                      </form>
+                  </div>
+                  <div class="modal-footer">
+                      <button ng-click="validerHistorique()" class="btn text-white" style="background-color: #168e37;"
+                          type="submit">
+                          <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider
+                      </button>
+  
+                      <button ng-click="getTache(id_activite_ptba_1)" class="btn btn-danger"  data-toggle="modal" data-target="#exampleModal1" data-dismiss="modal" aria-label="Close">
+                          <i class="fa fa-fw fa-lg fa-times-circle"></i><span aria-hidden="true">Annuler</span>
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+              <div class="modal fade" id="exampleModal11" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered modal-lg">
+                      <div class="modal-content">
+                          <div class="modal-header" style="background-color: #168e37 !important;">
+                              <h5 class="modal-title text-white" id="exampleModalLabel">
+                                  <label class="text-white text-center"  ng-repeat="activite in ListeActivite.activites" ng-if="id_activite_ptba_2 === activite.id_ptba">
+                                      {{activite.code_activite_ptba}}: {{activite.intitule_activite_ptba}}
+                                  </label>
+                                  
+                                  <!-- <a href="" style="color: white;background-color: #e79300; font-size: 20px; padding: 5px" class="btn-sm col-lg-2"  data-toggle="modal" data-target="#exampleModall">
+                                      <i class="fas fa-plus-circle"> Nouveau</i>
+                                  </a> -->
+                              </h5>
+                              <!-- <label class="" for="" ng-repeat="activite in ListeActivite.activites" ng-if="activite.responsable === nom1 || activite.executant === nom1 && id_activite_ptba_2 === activite.id_ptba"> -->
+                                  <a href="" ng-if="showbutton(id_activite_ptba_2) === 2 || decaissements.length === 0" style="color: white;background-color: black; font-size: 20px; padding: 5px" data-dismiss="modal" ng-click="Motif.IdTache = id_activite_ptba_2" class="btn-sm btn col-lg-2 text-white"  data-toggle="modal" data-target="#exampleModall">
+                                      <i class="fas fa-plus-circle"> Nouveau</i> 
+                                  </a> 
+                              <!-- </label> -->
+                              <!-- <a href="" data-toggle="modal" data-target="#exampleModall" data-dismiss="modal" ng-if="showbutton(id_activite_ptba_2) === 2" style="color: white;background-color: #e79300; font-size: 20px; padding: 5px" ng-click="Motif.IdTache = id_activite_ptba_2" class="btn-sm col-lg-2 btn">
+                                  <i class="fas fa-plus-circle"> Nouveau</i> 
+                              </a>  -->
+                          </div>
+                          <div class="modal-body">
+                              <table id="" class="table table-striped table-bordered">
+                                  <thead>
+                                      <tr>
+                                          <!-- <th>Code</th> -->
+                                          <th>Montant (CFA)</th>
+                                          <th>Observation</th>
+                                          <th width="110">Date suivi</th>
+                                          <th width="150">Action</th>
+                                          
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+  
+                                      <tr class="odd gradeX" ng-repeat="Motif in decaissements">
+                                          <!-- <td>{{Motif.code_suivi}}</td> -->
+                                          <td>{{formatAmount(Motif.montant_decaisse)}}</td>
+                                          <td>{{Motif.observation}}</td>
+                                          <td>{{Motif.date_suivi}}</td>
+                                          <td>
+                                              <!-- <div ng-repeat="activite in ListeActivite.activites" ng-if="activite.responsable === nom1 || activite.executant === nom1 && Motif.id_activite_ptba === activite.id_ptba"> -->
+                                                  <div ng-if="Motif.etat != 1">
+                                                      <a title="Modifier" href="" ng-click="getDecaissementById(Motif.id_suivi)" data-toggle="modal"
+                                                      data-target="#exampleModal33" data-dismiss="modal">
+                                                      <i class="fa fa-pencil-square-o mr-2" style="color:#0e0e90;font-size: 20px;"></i>
+                                                      </a>
+                                                      <a href="" title="Supprimer" ng-click="confirmDelete1(Motif)">
+                                                          <i class="fas fa-trash-alt mr-2" style="color:#cf0d0d;font-size: 20px;"></i>
+                                                      </a>
+                                                      <label for=""  ng-repeat="activite in ListeActivite.activites" ng-if="activite.id_ptba === Motif.id_activite_ptba">
+                                                          <label for="" ng-if="activite.responsable === nom1">
+                                                              <a href="" title="Valider"  ng-click="getAlertValidationDecaiss(Motif.id_suivi)"> <i class="fas fa-check-circle fa-2x"></i> </a>
+                                                          </label>
+                                                      </label>
+                                                  </div>
+                                              <!-- </div> -->
+                                              <div ng-if="Motif.etat == 1">
+                                                  <label>
+                                                      <i class="fas fa-check mr-2" style="color:#168E37;font-size: 20px;" aria-hidden="true"> validée</i> 
+                                                  </label>
+                                              </div>
+                                             
+                                          </td>
+                                          <!--<td>{{Motif.livrable}}  </td> -->
+                                  
+                                          <!-- <td>
+                                              <a href="" ng-click="getMaTache(Motif.contrat,Motif.id_suivi)" data-toggle="modal"
+                                                  data-target="#exampleModal1">
+                                                  Voir les décaissements
+                                              </a>
+                                          </td> -->
+                                          
+                                          <!-- <td>
+                                              <a href="" ng-click="getSousActivite(Motif.contrat,Motif.id_suivi)" data-toggle="modal"
+                                                  data-target="#exampleModal">
+                                                  <i class="fa fa-pencil-square-o mr-2" style="color:#168E37;font-size: 20px;"
+                                                      aria-hidden="true"></i>
+                                              </a> -->
+  
+                                              <!-- <a  href="" data-toggle="modal" data-target="#exampleModal" class="btn btn-sm btn-success" type="button">  Modifier</a> -->
+                                              <!-- <a href="" ng-click="validerTache(Motif)">
+                                                  <i class="fa fa-check-circle text-success mr-2" title="Valider" style="font-size: 20px;" aria-hidden="true"></i>
+                                              </a> -->
+                                          <!-- </td> -->
+                                      </tr>
+                                  </tbody>
+                                  <table class="table table-bordered">
+                                      <div class="row">
+                                          
+                                          <div class="col-12">
+                                              <thead  style="background-color:#E79300">
+                                                  <tr>
+                                                      <th class="text-white" style="font-size: 15px;" width="200">
+                                                          
+                                                          <label for="" style="font-size: 15px; color: white;float: right;">
+                                                              Total (CFA)
+                                                          </label>
+                                                      </th>
+                                                      <th class="text-white" style="font-size: 15px;">
+                                                          <label for="" style="font-size: 15px; color: white; "  ng-repeat="activite in ListeActivite.activites" ng-if="activite.id_ptba === id_activite_ptba_2">
+                                                              {{formatAmount(getSomme())}}
+                                                             </label>
+                                                      </th>
+                                                      <th class="text-white" style="font-size: 15px;" width="200">
+                                                          <label for="" style="font-size: 15px; color: white; float: right;">
+                                                              Taux
+                                                          </label>
+                                                      </th>
+                                                      <th class="text-white">
+                                                          <label for="" style="font-size: 15px; color: white; "  ng-repeat="activite in ListeActivite.activites" ng-if="activite.id_ptba === id_activite_ptba_2">
+                                                           {{getSomme() * 100 /  activite.cout | number : 2}} %
+                                                          </label>
+                                                      </th>
+                                                  </tr>
+                                              </thead>
+                                          </div>
+                                          
+                                      </div>
+                                      
+                                  </table>
+                              </table>
+                              <table class="table table-bordered">
+                                  <div class="row">
+                                      
+                                      <div class="col-12">
+                                          <thead style="background-color: #168E37">
+                                              <tr>
+                                                  <th width="375">
+                                                      <label for="" style="font-size: 15px; color: white;float: right;">
+                                                          Montant prévu (CFA)
+                                                      </label>
+                                                  </th>
+                                                  <th  >
+                                                      <label for="" style="font-size: 15px; color: white;"  ng-repeat="activite in ListeActivite.activites" ng-if="activite.id_ptba === id_activite_ptba_2">
+                                                          {{formatAmount(activite.cout)}}
+                                                      </label>
+                                                  </th>
+                                              </tr>
+                                          </thead>
+                                      </div>
+                                      
+                                  </div>
+                                  
+                              </table>
+                          </table>
+                          </div>
+                          <div class="modal-footer">
+                              <button name="Valider" value="Valider"  data-dismiss="modal" aria-label="Close" class="btn text-white" style="background-color: #168e37 !important;"
+                                  type="submit"  >
+                                  <i class="fa fa-fw fa-lg fa-check-circle"></i>Fermer
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+                  <div class="modal fade" id="exampleModal33" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                              aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                      <div class="modal-header" style="background-color: #168e37 !important;">
+                                          <h5 class="modal-title text-white" id="exampleModalLabel">Modification Decaissement </h5>
+                                          <button type="button" ng-click="InitialiseDashboardG()" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                          </button>
+                                      </div>
+                                      <div class="modal-body">
+                                          <form name="FormMotif" novalidate>
+                                          
+                                              <div class="">
+                                                  <div class="col-md-12">
+                                                      <div class="form-group">
+                                                          <!-- <label for="message-text" class="col-form-label">Code {{Motif.IdTache}} - {{Motif.CodeTache}}  <span
+                                                                  style="color:red;"> *</span></label> -->
+                                                          <input type="hidden" class="form-control" ng-value="{{Motif.Nlot}}" name="Motif"
+                                                              placeholder="Libelle" ng-model="Motif.Nlot" ng-pattern="regexCote" required>
+                                                          <input type="hidden" class="form-control" ng-value="{{Motif.IdTache}}"
+                                                              name="Motif" placeholder="Libelle" ng-model="Motif.IdTache" ng-value="{{Motif.IdTache}}"
+                                                              ng-pattern="regexCote" required>
+                                                          <input type="hidden" class="form-control" ng-value="{{Motif.CodeTache}}"
+                                                              name="Motif" placeholder="Libelle" ng-model="Motif.CodeTache"
+                                                          ng-pattern="regexCote" required>
+                                                          <input type="hidden" class="form-control" ng-value="{{Motif.StatutTache}}"
+                                                              name="Motif" placeholder="Libelle" ng-model="Motif.StatutTache"
+                                                          ng-pattern="regexCote" required>
+                                                      </div>
+                                                  </div>
+                                                  
+                                                  <div class="col-md-12">
+                                                      <div class="form-group">
+                                                          <label for="message-text" class="col-form-label">Date de suivi <span
+                                                                  style="color:red;"> *</span></label>
+                                                          <input class="form-control no-placeholder" ng-model="Motif.DateReelle" ng-value="{{Motif.DateReelle}}"
+                                                          required >
+                                                          <span style="color:red;"
+                                                              ng-show="FormMotif.Motif.$dirty && FormMotif.Motif.$invalid">Champ
+                                                              obligatoire ou caractère invalide</span>
+                                                      </div>
+                                                  </div>
+                                                  
+                                              </div>
+                                              <div class="">
+                                                  <div class="col-md-12">
+                                                      <div class="form-group">
+                                                          <label for="message-text" class="col-form-label">Source de vérification <span
+                                                              style="color:red;"> *</span></label>
+                                                          <!-- <input type="file" class="form-control" name="Livrable" placeholder="Source de vérification"
+                                                              ng-model="Motif.Livrable" ng-pattern="regexCote"> -->
+                                                              <input type="file" class="form-control" name="file22" placeholder="Libelle"
+                                                              id="file22" required>
+                                                              <!-- <span style="color:red;"
+                                                              ng-show="FormMotif1.Livrable.$touched && FormMotif1.Livrable.$invalid">Champ
+                                                              obligatoire ou caractère invalide</span> -->
+                                                      </div>
+                                                  </div> 
+                                                  <div class="col-md-12">
+                                                      <div class="form-group">
+                                                          <label for="message-text" class="col-form-label">Montant décaissé <span
+                                                              style="color:red;"> *</span></label>
+                                                          <input class="form-control" name="Motif" placeholder="Montant décaissé"
+                                                          ng-value="{{Motif.Difficultes}}" ng-model="Motif.Difficultes" ng-pattern="regexCote" required>
+                                                          <span style="color:red;"
+                                                              ng-show="FormMotif.Motif.$dirty && FormMotif.Motif.$invalid">Champ
+                                                              obligatoire ou caractère invalide</span>
+                                                      </div>
+                                                  </div>
+  
+                                                  <!-- Deuxième champ textarea -->
+                                                  <div class="col-md-12">
+                                                      <div class="form-group">
+                                                          <label for="message-text" class="col-form-label">Observations <span
+                                                              style="color:red;"> *</span></label>
+                                                          <textarea   class="form-control" name="Motif" placeholder="Observations"
+                                                              ng-value="{{Motif.Observation}}" ng-model="Motif.Observation"
+                                                              ng-pattern="regexCote" required>
+                                                              
+                                                          </textarea>
+                                                          <span style="color:red;"
+                                                              ng-show="FormMotif.Motif.$dirty && FormMotif.Motif.$invalid">Champ
+                                                              obligatoire ou caractère invalide</span>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </form>
+                                      </div>
+                                      <div class="modal-footer">
+                                          <button name="Valider" ng-click="decaissementTache()" value="Valider"  data-dismiss="modal" style="background-color: #168e37 !important;" class="btn text-white"
+                                          type= "submit"  >
+                                          <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider
+                                          </button>
+  
+                                          <button ng-click="getTache1(id_activite_ptba_2)" class="btn btn-danger"  data-toggle="modal" data-target="#exampleModal11" data-dismiss="modal" aria-label="Close">
+                                              <i class="fa fa-fw fa-lg fa-times-circle"></i><span aria-hidden="true">Annuler</span>
+                                          </button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="modal fade" id="exampleModall" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                              aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                      <div class="modal-header" style="background-color: #168e37 !important;">
+                                          <h5 class="modal-title text-white" id="exampleModalLabel">Nouveau Decaissement</h5>
+                                          <button type="button" ng-click="InitialiseActivite()" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                          </button>
+                                      </div>
+                                      <div class="modal-body">
+                                          <form name="FormMotif1" novalidate>
+                                             
+                                              <div class="">
+                                                  <div class="col-md-12">
+                                                      <div class="form-group">
+                                                          
+                                                          <input type="hidden" class="form-control" ng-value="{{Motif.Nlot}}" name="Motif"
+                                                              placeholder="Libelle" ng-model="Motif.Nlot" ng-pattern="regexCote" required>
+                                                          <input type="hidden" class="form-control" ng-value="{{Motif.IdTache}}"
+                                                              name="Motif" placeholder="Libelle" ng-model="Motif.IdTache"
+                                                              ng-pattern="regexCote" required>
+                                                          <input type="hidden" class="form-control" ng-value="{{Motif.CodeTache}}"
+                                                              name="Motif" placeholder="Libelle" ng-model="Motif.CodeTache"
+                                                              ng-pattern="regexCote" required>
+                                                         
+                                                      </div>
+                                                  </div>
+                                                  
+                                                  <div class="col-md-12">
+                                                      <div class="form-group">
+                                                          <label for="message-text" class="col-form-label">Date de suivi <span
+                                                              style="color:red;"> *</span><span
+                                                                  style="color:red;"> *</span></label>
+                                                          <input class="form-control" ng-model="Motif.DateReelle"
+                                                              type="date" required ng-required="true" name="DateReelle"
+                                                              ng-model-options="{ 'timezone': 'UTC', 'format': 'yyyy-MM-dd' }">
+                                                              <!-- myForm.MotDePasse.$touched && myForm.MotDePasse.$invalid -->
+                                                          <span style="color:red;"
+                                                              ng-show="FormMotif1.DateReelle.$touched && FormMotif1.DateReelle.$invalid">Champ
+                                                              obligatoire ou caractère invalide</span>
+                                                      </div>
+                                                  </div>
+                                                  
+                                              </div>
+                                              <div class="">
+                                                  <div class="col-md-12">
+                                                      <div class="form-group">
+                                                          <label for="message-text" class="col-form-label">Source de vérification <span
+                                                              style="color:red;"> *</span></label>
+                                                          <!-- <input type="file" class="form-control" name="Livrable" placeholder="Source de vérification"
+                                                              ng-model="Motif.Livrable" ng-pattern="regexCote"> -->
+                                                              <input type="file" class="form-control" name="file1" placeholder="Libelle"
+                                                              id="file1" required>
+                                                              <!-- <span style="color:red;"
+                                                              ng-show="FormMotif1.Livrable.$touched && FormMotif1.Livrable.$invalid">Champ
+                                                              obligatoire ou caractère invalide</span> -->
+                                                      </div>
+                                                  </div> 
+                                                  <!-- Premier champ textarea -->
+                                                  <div class="col-md-12">
+                                                      <div class="form-group">
+                                                          <label for="message-text" class="col-form-label">Montant décaissé <span
+                                                              style="color:red;"> *</span></label>
+                                                          <input type="number" class="form-control" name="Difficultes" placeholder="Montant décaissé" ng-value="Motif.Difficultes"
+                                                              ng-model="Motif.Difficultes" ng-pattern="regexCote" required></textarea>
+                                                              <span style="color:red;"
+                                                              ng-show="FormMotif1.Difficultes.$touched && FormMotif1.Difficultes.$invalid">Champ
+                                                              obligatoire ou caractère invalide</span>
+                                                      </div>
+                                                  </div>
+  
+                                                  <!-- Deuxième champ textarea -->
+                                                  <div class="col-md-12">
+                                                      <div class="form-group">
+                                                          <label for="message-text" class="col-form-label">Observations<span
+                                                              style="color:red;"> *</span></label>
+                                                          <textarea   class="form-control" name="Observation" placeholder="Observations"
+                                                              ng-value="{{Motif.Observation}}" ng-model="Motif.Observation"
+                                                              ng-pattern="regexCote" required></textarea>
+                                                              <span style="color:red;"
+                                                              ng-show="FormMotif1.Observation.$touched && FormMotif1.Observation.$invalid">Champ
+                                                              obligatoire ou caractère invalide</span>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </form>
+                                      </div>
+                                      <div class="modal-footer">
+                                          <button name="Valider" value="Valider" ng-disabled="FormMotif1.$invalid" ng-click="ValiderEditionTache1()" style="background-color: #168e37 !important;" class="btn text-white"
+                                          type= "submit">
+                                              <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider
+                                          </button>
+  
+                                          <button ng-click="getTache1(id_activite_ptba_2)" class="btn btn-danger"  data-toggle="modal" data-target="#exampleModal11" data-dismiss="modal" aria-label="Close">
+                                              <i class="fa fa-fw fa-lg fa-times-circle"></i><span aria-hidden="true">Annuler</span>
+                                          </button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="modal fade" id="exampleModaObs" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                              aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                      <div class="modal-header" style="background-color: #168e37 !important;">
+                                          <h5 class="modal-title text-white" id="exampleModalLabel">Observation </h5>
+                                          <button type="button" ng-click="InitialiseActivite()" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                          </button>
+                                      </div>
+                                      <div class="modal-body">
+                                          <form name="FormMotif" novalidate>
+                                              
+                                              <div class="">
+                                                  <!-- Deuxième champ textarea -->
+                                                  <div class="col-md-12">
+                                                      <div class="form-group">
+                                                          <label for="message-text" class="col-form-label">Observations <span
+                                                              style="color:red;"> *</span></label>
+                                                          <textarea class="form-control ng-pristine ng-untouched ng-valid"
+                                                           name="ObservationGenerale"
+                                                           placeholder="Observations"
+                                                           ng-model="Motif.ObservationGenerale" ng-pattern="regexCote" required>
+                                                          </textarea>  
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </form>
+                                      </div>
+                                      <div class="modal-footer">
+                                          <button name="Valider" value="Valider" ng-click="ValiderEditionObservation(myid)" style="background-color: #168e37 !important;" class="btn text-white"
+                                          type= "submit">
+                                              <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider
+                                          </button>
+  
+                                          <button class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                              <i class="fa fa-fw fa-lg fa-times-circle"></i><span aria-hidden="true">Annuler</span>
+                                          </button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="modal fade" id="exampleModalll" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                              aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered modal-lg">
+                                  <div class="modal-content">
+                                      <div class="modal-header" style="background-color: #168e37 !important;">
+                                          <h5 class="modal-title text-white" id="exampleModalLabel">Nouvelle Indicateur </h5>
+                                          <button type="button" ng-click="InitialiseActivite()" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                          </button>
+                                      </div>
+                                      <div class="modal-body">
+                                          <form name="FormMotif" novalidate>
+                                              
+                                              <div class="">
+                                                  <!-- Deuxième champ textarea -->
+                                                  
+                                                  <div class="col-md-12">
+                                                      <div class="form-group row">
+                                                          <label for="message-text" class="col-form-label col-lg-3">Indicateur <span
+                                                              style="color:red;"> *</span></label>
+                                                          <div class="col-lg-9">
+                                                              <textarea class="form-control ng-pristine ng-untouched ng-valid"
+                                                           name="ObservationGenerale"
+                                                           placeholder="Observations"
+                                                           ng-model="Motif.ObservationGenerale1" ng-pattern="regexCote" required>
+                                                          </textarea>  
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-12">
+                                                      <div class="form-group row">
+                                                          <label for="message-text" class="col-form-label col-lg-4">Unité de mesure <span
+                                                              style="color:red;"> *</span></label>
+                                                          <div class="col-lg-8">
+                                                              <select class="form-control" name="selectChoice" ng-model="Motif.StatutTache"
+                                                              required>
+                          
+                                                              <option value="%">%</option>
+                                                              <option value="Nbre">Nbre</option>
+                                                              <option value="Ha">Ha</option>
+                                                              <option value="Groupe">Groupe</option>
+                                                              <option value="Homme">Homme</option>
+                                                              <option value="F/A">F/A</option>
+                                                              <option value="H+F">H+F</option>
+                                                              <option value="Exp.">Exp.</option>
+                                                              <option value="KM">KM</option>
+                                                              <option value="Oui/Non">Oui/Non</option>
+                                                              <option value="U.">U.</option>
+                                                              <option value="M°USD">M°USD</option>
+                                                              <option value="j/H">j/H</option>
+                                                              <option value="% F">% F</option>
+                                                              <option value="% G">% G</option>
+                                                              <option value="Mois">Mois</option>
+                                                              <option value="CEP">CEP</option>
+                                                              <option value="BIA">BIA</option>
+                                                              <option value="Score">Score</option>
+                                                              </select> 
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-12">
+                                                      <div class="form-group row">
+                                                          <label for="message-text" class="col-form-label col-lg-12" style="background-color: #9a9aa6; color: black;font-family: 'Times New Roman', Times, serif;font-size: 15px; text-align: center;font-weight: 800;"> Valeur sible par année </label>
+                                                      </div>
+                                                  </div>
+                                                  
+                                                  <div class="col-md-12">
+                                                      <div class="form-group row">
+                                                          <label for="message-text" class="col-form-label col-lg-3 fas fa-check-circle"> Janvier </label>
+                                                             <!-- <div class="col-lg-6"></div>  -->
+                                                          <div class="col-lg-3">
+                                                              <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                           name="ObservationGenerale" type="number"
+                                                           ng-model="Motif.ObservationGenerale1" ng-pattern="regexCote" required>
+                                                          </div>
+                                                          <label for="message-text" class="col-form-label col-lg-3 fas fa-check-circle"> Février </label>
+                                                          <!-- <div class="col-lg-6"></div>  -->
+                                                          <div class="col-lg-3">
+                                                              <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                          name="ObservationGenerale" type="number"
+                                                          ng-model="Motif.ObservationGenerale1" ng-pattern="regexCote" required>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-12">
+                                                      <div class="form-group row">
+                                                         
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-12">
+                                                      <div class="form-group row">
+                                                          <label for="message-text" class="col-form-label col-lg-3 fas fa-check-circle"> Mars </label>
+                                                             <div class="col-lg-6"></div> 
+                                                          <div class="col-lg-3">
+                                                              <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                           name="ObservationGenerale" type="number"
+                                                           ng-model="Motif.ObservationGenerale1" ng-pattern="regexCote" required>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-12">
+                                                      <div class="form-group row">
+                                                          <label for="message-text" class="col-form-label col-lg-3 fas fa-check-circle"> Avril </label>
+                                                             <div class="col-lg-6"></div> 
+                                                          <div class="col-lg-3">
+                                                              <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                           name="ObservationGenerale" type="number"
+                                                           ng-model="Motif.ObservationGenerale1" ng-pattern="regexCote" required>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-12">
+                                                      <div class="form-group row">
+                                                          <label for="message-text" class="col-form-label col-lg-3 fas fa-check-circle"> Mai </label>
+                                                             <div class="col-lg-6"></div> 
+                                                          <div class="col-lg-3">
+                                                              <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                           name="ObservationGenerale" type="number"
+                                                           ng-model="Motif.ObservationGenerale1" ng-pattern="regexCote" required>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-12">
+                                                      <div class="form-group row">
+                                                          <label for="message-text" class="col-form-label col-lg-3 fas fa-check-circle"> Juin </label>
+                                                             <div class="col-lg-6"></div> 
+                                                          <div class="col-lg-3">
+                                                              <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                           name="ObservationGenerale" type="number"
+                                                           ng-model="Motif.ObservationGenerale1" ng-pattern="regexCote" required>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-12">
+                                                      <div class="form-group row">
+                                                          <label for="message-text" class="col-form-label col-lg-3 fas fa-check-circle"> Juillet </label>
+                                                             <div class="col-lg-6"></div> 
+                                                          <div class="col-lg-3">
+                                                              <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                           name="ObservationGenerale" type="number"
+                                                           ng-model="Motif.ObservationGenerale1" ng-pattern="regexCote" required>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-12">
+                                                      <div class="form-group row">
+                                                          <label for="message-text" class="col-form-label col-lg-3 fas fa-check-circle"> Août </label>
+                                                             <div class="col-lg-6"></div> 
+                                                          <div class="col-lg-3">
+                                                              <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                           name="ObservationGenerale" type="number"
+                                                           ng-model="Motif.ObservationGenerale1" ng-pattern="regexCote" required>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-12">
+                                                      <div class="form-group row">
+                                                          <label for="message-text" class="col-form-label col-lg-3 fas fa-check-circle"> Septembre </label>
+                                                             <div class="col-lg-6"></div> 
+                                                          <div class="col-lg-3">
+                                                              <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                           name="ObservationGenerale" type="number"
+                                                           ng-model="Motif.ObservationGenerale1" ng-pattern="regexCote" required>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-12">
+                                                      <div class="form-group row">
+                                                          <label for="message-text" class="col-form-label col-lg-3 fas fa-check-circle"> Octobre </label>
+                                                             <div class="col-lg-6"></div> 
+                                                          <div class="col-lg-3">
+                                                              <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                           name="ObservationGenerale" type="number"
+                                                           ng-model="Motif.ObservationGenerale1" ng-pattern="regexCote" required>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-12">
+                                                      <div class="form-group row">
+                                                          <label for="message-text" class="col-form-label col-lg-3 fas fa-check-circle"> Novembre </label>
+                                                             <div class="col-lg-6"></div> 
+                                                          <div class="col-lg-3">
+                                                              <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                           name="ObservationGenerale" type="number"
+                                                           ng-model="Motif.ObservationGenerale1" ng-pattern="regexCote" required>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-12">
+                                                      <div class="form-group row">
+                                                          <label for="message-text" class="col-form-label col-lg-3 fas fa-check-circle"> Decembre </label>
+                                                             <div class="col-lg-6"></div> 
+                                                          <div class="col-lg-3">
+                                                              <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                           name="ObservationGenerale" type="number"
+                                                           ng-model="Motif.ObservationGenerale1" ng-pattern="regexCote" required>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </form>
+                                      </div>
+                                      <div class="modal-footer">
+                                          <button name="Valider" value="Valider" ng-click="ValiderEditionObservation(myindicateur)" style="background-color: #168e37 !important;" class="btn text-white"
+                                          type= "submit">
+                                              <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider
+                                          </button>
+  
+                                          <button class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#exampleModal111" aria-label="Close">
+                                              <i class="fa fa-fw fa-lg fa-times-circle"></i><span aria-hidden="true">Annuler</span>
+                                          </button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="modal fade" id="exampleModal111" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                              aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered modal-lg">
+                                  <div class="modal-content">
+                                      <div class="modal-header"style="background-color:#168E37; color: white !important;">
+                                          <h5 class="modal-title" id="exampleModalLabel">
+                                              <label class="text-white text-center" ng-repeat="activite in ListeActivite.activites" ng-if="myindicateur === activite.id_ptba">
+                                                  {{activite.code_activite_ptba}}: {{activite.intitule_activite_ptba}}
+                                              </label>
+                                          </h5>
+                                          <!-- ng-if="showbutton1(myindicateur) === 2 || suividata.length === 0" -->
+                                           <a href="" style="color: white;background-color: black; font-size: 20px; padding: 5px" ng-click="InitialiseDashboardG();Motif.IdTache = myindicateur" class="btn-sm btn col-lg-2"  data-toggle="modal" data-target="#exampleModalll" data-dismiss="modal">
+                                                  <i class="fas fa-plus-circle"> Nouveau</i> 
+                                            </a> 
+                                      </div>
+                                      <div class="modal-body">
+                                          <table id="" class="table table-striped table-bordered">
+                                              <thead>
+                                                  <tr>
+                                                      <!-- <th>Code </th> -->
+                                                      <th>Tâches</th>
+                                                      <th>Unité</th>
+                                                      <th>Type</th>
+                                                      <th>2021</th>
+                                                      <th>2022</th>
+                                                      <th>2023</th>
+                                                      <th>2024</th>
+                                                      <th>2025</th>
+                                                      <th>2026</th>
+                                                      <th>2027</th>
+                                                      <th width="100">Action</th>
+                                                       
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                      
+                                                  <tr class="odd gradeX">
+                                                      <!-- <td>{{Motif.code_suivi}} {{Motif.etat}}</td> -->
+                                                      <td>essai</td>
+                                                      <td>%</td>
+                                                      <td>performance</td>
+                                                      <td>100</td>
+                                                      <td>100</td>
+                                                      <td></td>
+                                                      <td>100</td>
+                                                      <td></td>
+                                                      <td>100</td>
+                                                      <td>100</td>
+                                                       <td>
+                                                          <!-- <div ng-repeat="activite in ListeActivite.activites" ng-if="activite.responsable === nom1 || activite.executant === nom1 && Motif.id_activite_ptba === activite.id_ptba"> -->
+                                                              <div>
+                                                                  <a href="" ng-click="getTacheById(Motif.id_suivi)" title="Modifier" data-toggle="modal"
+                                                                  data-target="#exampleModal3" data-dismiss="modal">
+                                                                  <i class="fa fa-pencil-square-o mr-2" style="color:#231dd9;font-size: 20px;"></i>
+                                                                  </a>
+                                                                  <a href="" ng-click="confirmDelete(Motif)" title="Supprimer">
+                                                                  <i class="fas fa-trash-alt mr-2" style="color:#cf0d0d;font-size: 20px;"></i>
+                                                                  </a>
+                                                                  <!-- <label for="">
+                                                                      <label for="">
+                                                                          <a href=""  ng-click="getAlertValidationTache(Motif.id_suivi)" title="Valider"> <i class="fas fa-check-circle fa-2x"></i> </a>
+                                                                      </label>
+                                                                  </label> -->
+                                                              </div>
+                                                          <!-- </div> -->
+                                                          <!-- <div>
+                                                              <label>
+                                                                  <i class="fas fa-check mr-2" style="color:#168E37;font-size: 20px;" aria-hidden="true"> validée</i> 
+                                                              </label>
+                                                          </div> -->
+                                                  </td>
+                                                     
+                                                  </tr>
+                                              </tbody>
+                                          </table>
+                                      </div>
+                                      <div class="modal-footer">
+                                          <button name="Valider" value="Valider" ng-click="ValiderEditionObservation(myindicateur)" style="background-color: #168e37 !important;" class="btn text-white"
+                                          type= "submit">
+                                              <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider
+                                          </button>
+  
+                                          <button class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                              <i class="fa fa-fw fa-lg fa-times-circle"></i><span aria-hidden="true">Annuler</span>
+                                          </button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+              <div class="d-flex bd-highlight" ng-show="ListeActivite.activites.length > 0">
+                  <div class="p-2 bd-highlight ml-auto">
+                      <dir-pagination-controls on-page-change="pageChangeHandler(newPageNumber)" max-size="5"
+                          direction-links="true" boundary-links="true"></dir-pagination-controls>
+                  </div>
+              </div>
+          </div>
+          
+      </div>
+  </section>
+  <div class="modal fade" id="exampleModal333" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="background-color: #168e37 !important;">
+                                        <h5 class="modal-title text-white" id="exampleModalLabel">Modification Suivi Indicateur</h5>
+                                        <button type="button" ng-click="InitialiseActivite()" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form name="FormMotif" novalidate>
+                                            
+                                            <div class="">
+                                                <!-- Deuxième champ textarea -->
+                                                
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <!-- <label for="message-text" class="col-form-label col-lg-3">Date de suivi <span
+                                                            style="color:red;"> *</span></label> -->
+                                                        <div class="col-lg-9">
+                                                            <input class="form-control ng-pristine ng-untouched ng-valid" type="hidden"
+                                                            name="ObservationGenerale" ng-model="Motif.id_indicateur" ng-pattern="regexCote">
+                                                            <!-- <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                            name="ObservationGenerale" type="text"  ng-model-options="{ 'timezone': 'UTC', 'format': 'yyyy-MM-dd' }"
+                                                             ng-model="Motif.date_indicateur" ng-pattern="regexCote" required> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <div class="col-lg-1"></div>
+                                                        <label for="message-text" class="col-form-label col-lg-11" style="background-color: #9a9aa6; color: black;font-family: 'Times New Roman', Times, serif;font-size: 15px; text-align: center;font-weight: 800;"> Valeur cible par mois  </label>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <div class="col-lg-1"></div>
+                                                        <label for="message-text" class="col-form-label text-al col-lg-2 fas fa-check-circle"> Janvier {{Motif.valeur_cible1}} </label>
+                                                           <!-- <div class="col-lg-6"></div>  -->
+                                                        <div class="col-lg-3">
+                                                            <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                         name="ObservationGenerale" type="text"
+                                                         ng-model="Motif.valeur_cible1" ng-pattern="regexCote" required>
+                                                        </div>
+                                                        <div class="col-lg-1"></div>
+                                                        <label for="message-text" class="col-form-label text-al col-lg-2 fas fa-check-circle"> Février {{Motif.valeur_cible2}} </label>
+                                                        <!-- <div class="col-lg-6"></div>  -->
+                                                        <div class="col-lg-3">
+                                                            <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                        name="ObservationGenerale" type="text"
+                                                        ng-model="Motif.valeur_cible2" ng-pattern="regexCote" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <style>
+                                                    .text-al{
+                                                        text-align: right;
+                                                    }
+                                                </style>
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <div class="col-lg-1"></div>
+                                                        <label for="message-text" class="col-form-label text-al col-lg-2 fas fa-check-circle"> Mars {{Motif.valeur_cible3}} </label>
+                                                        <div class="col-lg-3">
+                                                            <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                         name="ObservationGenerale" type="text"
+                                                         ng-model="Motif.valeur_cible3" ng-pattern="regexCote" required>
+                                                        </div>
+                                                        <div class="col-lg-1"></div>
+                                                        <label for="message-text" class="col-form-label col-lg-2 text-al fas fa-check-circle"> Avril {{Motif.valeur_cible4}}</label>
+                                                        <div class="col-lg-3">
+                                                            <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                         name="ObservationGenerale" type="text"
+                                                         ng-model="Motif.valeur_cible4" ng-pattern="regexCote" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <div class="col-lg-1"></div>
+                                                        <label for="message-text" class="col-form-label col-lg-2 text-al fas fa-check-circle"> Mai {{Motif.valeur_cible5}}</label>
+                                                        <div class="col-lg-3">
+                                                            <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                         name="ObservationGenerale" type="text"
+                                                         ng-model="Motif.valeur_cible5" ng-pattern="regexCote" required>
+                                                        </div>
+                                                        <div class="col-lg-1"></div>
+                                                        <label for="message-text" class="col-form-label col-lg-2 text-al fas fa-check-circle"> Juin {{Motif.valeur_cible6}}</label>
+                                                         <div class="col-lg-3">
+                                                            <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                         name="ObservationGenerale" type="text"
+                                                         ng-model="Motif.valeur_cible6" ng-pattern="regexCote" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <div class="col-lg-1"></div>
+                                                        <label for="message-text" class="col-form-label col-lg-2 text-al fas fa-check-circle"> Juillet {{Motif.valeur_cible7}}</label>
+                                                        <div class="col-lg-3">
+                                                            <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                         name="ObservationGenerale" type="text"
+                                                         ng-model="Motif.valeur_cible7" ng-pattern="regexCote" required>
+                                                        </div>
+                                                        <div class="col-lg-1"></div>
+                                                        <label for="message-text" class="col-form-label col-lg-2 text-al fas fa-check-circle"> Août {{Motif.valeur_cible8}}</label>
+                                                        <div class="col-lg-3">
+                                                            <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                         name="ObservationGenerale" type="text"
+                                                         ng-model="Motif.valeur_cible8" ng-pattern="regexCote" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <!-- <div class="col-lg-1"></div> -->
+                                                        <label for="message-text" class="col-form-label col-lg-3 text-al fas fa-check-circle"> Septembre {{Motif.valeur_cible9}}</label>
+                                                        <div class="col-lg-3">
+                                                            <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                         name="ObservationGenerale" type="text"
+                                                         ng-model="Motif.valeur_cible9" ng-pattern="regexCote" required>
+                                                        </div>
+                                                        <!-- <div class="col-lg-1"></div> -->
+                                                        <label for="message-text" class="col-form-label col-lg-3 text-al fas fa-check-circle"> Octobre {{Motif.valeur_cible10}}</label>
+                                                        <div class="col-lg-3">
+                                                            <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                         name="ObservationGenerale" type="text"
+                                                         ng-model="Motif.valeur_cible10" ng-pattern="regexCote" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <!-- <div class="col-lg-1"></div> -->
+                                                        <label for="message-text" class="col-form-label col-lg-3 text-al fas fa-check-circle"> Novembre {{Motif.valeur_cible11}}</label>
+                                                        <div class="col-lg-3">
+                                                            <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                         name="ObservationGenerale" type="text"
+                                                         ng-model="Motif.valeur_cible11" ng-pattern="regexCote" required>
+                                                        </div>
+                                                        <!-- <div class="col-lg-1"></div> -->
+                                                        <label for="message-text" class="col-form-label col-lg-3 text-al fas fa-check-circle"> Decembre {{Motif.valeur_cible12}}</label>
+                                                        <div class="col-lg-3">
+                                                            <input class="form-control ng-pristine ng-untouched ng-valid"
+                                                         name="ObservationGenerale" type="text"
+                                                         ng-model="Motif.valeur_cible12" ng-pattern="regexCote" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button name="Valider" value="Valider" ng-click="ValiderEditionTache2()" style="background-color: #168e37 !important;" class="btn text-white"
+                                        type= "submit">
+                                            <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider
+                                        </button>
+
+                                        <button class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#exampleModal111" aria-label="Close">
+                                            <i class="fa fa-fw fa-lg fa-times-circle"></i><span aria-hidden="true">Annuler</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>

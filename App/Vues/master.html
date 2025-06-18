@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" ng-app="DECAISSEMENT">
+<!--<![endif]-->
+
+<!-- Mirrored from seantheme.com/color-admin-v4.3/admin/html/index_v2.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 23 Mar 2019 11:42:33 GMT -->
+
+<head>
+	<meta charset="utf-8" />
+	<title>RUCHE</title>
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/pdfmake.js"></script>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+	<script type="text/javascript" src="../Js/jquery.min.js"></script>
+	<script type="text/javascript" src="../Js/angular.min.js"></script>
+	<script type="text/javascript" src="../Js/angular-idle.min.js"></script>
+	<script type="text/javascript" src="../Js/angular-route.min.js"></script>
+	<script type="text/javascript" src="../Js/angular-cookies.min.js"></script>
+	<script type="text/javascript" src="../Js/dirPaginate.js"></script>
+	<script type="text/javascript" src="../Js/cleave-js/cleave-angular.min.js"></script>
+	<script type="text/javascript" src="../Js/cleave-js/cleave-phone.i18n.js"></script>
+	<script type="text/javascript" src="../Js/root.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+		integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer">
+		</script>
+	<script type="text/javascript" src="../Js/pdfMake/pdfmake.min.js"></script>
+	<script type="text/javascript" src="../Js/pdfMake/vfs_fonts.js"></script>
+	<script type="text/javascript" src="../Js/pdfMake/ace.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+		integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://unpkg.com/jspdf-invoice-template@1.4.0/dist/index.js"></script>
+	<script type="text/javascript" src="../Js/angular-block-ui.min.js"></script>
+	<script type="text/javascript" src="../Vues/Profil/controllers/ProfilController.js"></script>
+	<script type="text/javascript" src="../Vues/Recommandation/controllers/RecommandationController.js"></script>
+	<script type="text/javascript" src="../Vues/Difficultes/Controllers/DifficultesController.js"></script>
+	<script type="text/javascript" src="../Vues/Planification/controllers/PlanificationController.js"></script>
+	<script type="text/javascript" src="../Vues/Hebdomadaire/controllers/HebdomadaireController.js"></script>
+	<script type="text/javascript" src="../Vues/Prioritaire/controllers/PrioritaireController.js"></script>
+	<script type="text/javascript" src="../Vues/Activite/controllers/ActiviteController.js"></script>
+	<script type="text/javascript" src="../Vues/Decaissements/controllers/DecaissementsController.js"></script>
+	<script type="text/javascript" src="../Vues/SDecaissement/Controllers/SDecaissementController.js"></script>
+	<script type="text/javascript" src="../Vues/Mission/controllers/MissionController.js"></script>
+	<script type="text/javascript" src="../Vues/tache/controllers/tacheController.js"></script>
+	<script type="text/javascript" src="../Vues/Master/Controllers/MasterController.js"></script>
+	<script type="text/javascript" src="../Vues/Parametrage/Statut/Controllers/StatutController.js"></script>
+	<script type="text/javascript" src="../Vues/Parametrage/Type-Pieces/Controllers/TypePiecesController.js"></script>
+	<script type="text/javascript" src="../Vues/Parametrage/Motif/Controllers/MotifController.js"></script>
+	<script type="text/javascript"
+		src="../Vues/Parametrage/Beneficiaire/Controllers/BeneficiaireController.js"></script>
+	<script type="text/javascript"
+		src="../Vues/Parametrage/Type-Beneficiaire/Controllers/TypeBeneficiaireController.js"></script>
+	<script type="text/javascript" src="../Vues/Decaissement/Controllers/DecaissementController.js"></script>
+	<script type="text/javascript" src="../Vues/Indicateur/Controllers/IndicateurController.js"></script>
+	<script type="text/javascript" src="../Vues/SIndicateur/Controllers/SIndicateurController.js"></script>
+	<script type="text/javascript" src="../Vues/SIndicateur/Controllers/exportToWord2.js"></script>
+	<script type="text/javascript" src="../Vues/Etat/Controllers/EtatController.js"></script>
+	<script type="text/javascript" src="../Vues/Etat/Controllers/exportToWord.js"></script>
+	<script type="text/javascript" src="../Vues/Dashboard/Controllers/DashboardControllers.js"></script>
+	<script type="text/javascript"
+		src="../Vues/Administration/Utilisateur/Controllers/UtilisateurController.js"></script>
+	<script type="text/javascript" src="../Vues/Administration/Profil/Controllers/ProfilController.js"></script>
+	<script type="text/javascript" src="../Vues/Administration/Module/Controllers/ModuleController.js"></script>
+	<script type="text/javascript" src="../Vues/Administration/Droit/Controllers/DroitController.js"></script>
+	<script type="text/javascript" src="../Js/sweetalert.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+	<script type="text/javascript" src="https://unpkg.com/imask@6.0.5/dist/imask.js"></script>
+	<script type="text/javascript" src="../Js/intlTelInput.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-pagination/0.5.2/dirPagination.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<script type="text/javascript" src="../Js/excel/ods.js"></script>
+	<script type="text/javascript" src="../Js/excel/sheetjs.all.min.js"></script>
+	<script type="text/javascript" src="../Js/excel/excelplus-2.4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+	<!-- ================== BEGIN BASE CSS STYLE ================== -->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script> -->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+	<link href="../assets/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+	<link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="../assets/plugins/font-awesome/css/all.min.css" rel="stylesheet" />
+	<link href="../assets/plugins/animate/animate.min.css" rel="stylesheet" />
+	<link href="../assets/css/default/style.min.css" rel="stylesheet" />
+	<link href="../assets/css/default/style-responsive.min.css" rel="stylesheet" />
+	<link href="../assets/css/default/theme/default.css" rel="stylesheet" id="theme" />
+	<!-- ================== END BASE CSS STYLE ================== -->
+
+	<!-- ================== BEGIN PAGE LEVEL CSS STYLE ================== -->
+	<link href="../assets/plugins/jquery-jvectormap/jquery-jvectormap.css" rel="stylesheet" />
+	<link href="../assets/plugins/bootstrap-calendar/css/bootstrap_calendar.css" rel="stylesheet" />
+	<link href="../assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
+	<link href="../assets/plugins/nvd3/build/nv.d3.css" rel="stylesheet" />
+	<link href="../assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+	<link href="../assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" rel="stylesheet" />
+	<!-- ================== END PAGE LEVEL CSS STYLE ================== -->
+
+	<link rel="icon" type="image/png" href="../img/ruche.png" />
+	<!-- Main CSS-->
+	<!-- <link rel="stylesheet" type="text/css" href="../css/main.css"> -->
+	<link rel="stylesheet" type="text/css" href="../css/angular-block-ui.min.css">
+	<!-- Font-icon css-->
+	<link rel="stylesheet" type="text/css"
+		href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/intlTelInput.css">
+	<!-- Custum css -->
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+	<!-- ================== BEGIN BASE JS ================== -->
+	<script src="../assets/plugins/pace/pace.min.js"></script>
+	<link href="../assets/plugins/nvd3/build/nv.d3.css" rel="stylesheet" />
+
+	<!-- ================== END BASE JS ================== -->
+</head>
+
+<body ng-controller="MasterController" ng-init="InitialiseMaster()">
+	<!-- begin #page-loader -->
+	<div id="page-loader" class="fade show"><span class="spinner"></span></div>
+	<!-- end #page-loader -->
+
+	<!-- begin #page-container -->
+	<div id="page-container" class="fade page-sidebar-fixed page-header-fixed">
+		<!-- begin #header -->
+		<div id="header" class="header navbar-inverse">
+			<!-- begin navbar-header -->
+			<div class="navbar-header">
+				<a href="#" class="navbar-brand">
+					<img src="../img/ruche.png" width="120" height="52" alt="logo">
+				</a>
+				<button type="button" class="navbar-toggle" data-click="sidebar-toggled">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<style>
+				.nav-link1 {
+					font-size: 16px;
+					font-weight: 500;
+					font-family: sans-serif
+				}
+
+				.isize {
+					font-size: 14px !important;
+				}
+			</style>
+			<!-- end navbar-header -->
+			<style>
+				.progress-bar-striped {
+					background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+					background-size: 10px 10px;
+				}
+
+				.progress-bar {
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					overflow: hidden;
+					color: #fff;
+					text-align: center;
+					white-space: nowrap;
+					transition: width 9.8s ease;
+				}
+
+				.progress {
+					display: flex;
+					height: 20px;
+					overflow: hidden;
+					width: 100px !important;
+					font-size: 0.85625rem;
+					color: black !important;
+					background-color: #f8f9fa;
+					border-radius: 2px;
+				}
+
+				/* Ajoute cette classe pour créer l'effet de vibration */
+				.vibration {
+					animation: vibrate 1.5s infinite;
+				}
+
+				/* Définit l'animation de vibration */
+				@keyframes vibrate {
+					0% {
+						transform: translate(0);
+					}
+
+					25% {
+						transform: translate(-2px, 2px);
+					}
+
+					50% {
+						transform: translate(2px, -2px);
+					}
+
+					75% {
+						transform: translate(-2px, 2px);
+					}
+
+					100% {
+						transform: translate(2px, -2px);
+					}
+				}
+
+				/* position: absolute;
+				top: 5px;
+				border: 1px solid #FFF;
+				right: 10px;
+				font-size: 9px;
+				background: #f44336;
+				color: #FFFFFF;
+				min-width: 20px;
+				padding: 0px 5px;
+				height: 20px;
+				border-radius: 10px;
+				text-align: center;
+				line-height: 19px;
+				vertical-align: middle;
+				display: block; */
+
+				sup {
+					position: absolute;
+					background: #f44336;
+					color: #FFFFFF;
+					min-width: 20px;
+					padding: 0px 5px;
+					height: 20px;
+					border-radius: 10px;
+					text-align: center;
+					line-height: 19px;
+					vertical-align: middle;
+					display: block;
+					color: white;
+					top: -0.7em;
+					right: -70%;
+					/* font-weight: 700;
+					font-size: 20px;
+					padding: 2px; */
+				}
+			</style>
+			<!-- begin header-nav -->
+
+			<ul class="navbar-nav navbar-right">
+				<li class="dropdown navbar-user">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown">
+						<img src="../assets/img/user/user-13.jpg" alt="" />
+						<span class="d-none d-md-inline">{{nom}}</span>
+						<b class="caret"></b>
+					</a>
+					<div class="dropdown-menu dropdown-menu-right">
+						<div class="dropdown-divider"></div>
+						<a href="#/Profil" class="dropdown-item"> <i class="fa fa-user"></i>
+							Profil
+						</a>
+						<a href="javascript:;" ng-if="id_personnel == 'admin'" ng-click="LoadConvention()" class="dropdown-item"> <i class="fa fa-archive"></i>
+							Convention
+						</a>
+						<a href="javascript:;" ng-click="LogOut()" class="dropdown-item"> <i class="fa fa-sign-out"></i>
+							Déconnexion
+						</a>
+
+					</div>
+				</li>
+			</ul>
+			<ul class="navbar-nav navbar-right">
+				<li class="dropdown navbar-user">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="fas fa-bell fa-3x" ng-class="{ 'vibration': ListeNotifications.length > 0 }"
+							style="color: #f8f9fa; font-size: 22px;">
+							<sup>{{ListeNotifications.length}}</sup>
+						</i>
+
+					</a>
+					<div class="dropdown-menu dropdown-menu-right">
+						<div style="text-align: center;color: red;font-size: 20px;font-weight: 700;font-family: math;">
+							Mes notifications</div>
+						<div class="dropdown-divider"></div>
+						<div ng-repeat="notif in ListeNotifications">
+							<a href="javascript:;" class="dropdown-item"
+								ng-click="ValideNotification(notif.id,notif.id_activite_ptba);getSuiviActivite(notif.id_activite_ptba)"
+								ng-if="notif.Suivi == 1" data-toggle="modal" data-target="#exampleModal1">
+								<div style="display: flex;justify-content: space-between;">
+									<label for=""> {{notif.code_activite}} : {{notif.Description |
+										limitTo:30}}...</label>
+									<!-- Importer le module ngx-translate -->
+									<label for="">| {{ formatFrenchDate(notif.date_enregistrement)}}</label>
+								</div>
+							</a>
+							<a href="javascript:;" class="dropdown-item"
+								ng-click="ValideNotification(notif.id,notif.id_activite_ptba);getMaTache(notif.id_activite_ptba)"
+								ng-if="notif.Suivi == 2" data-toggle="modal" data-target="#exampleModal11">
+								<div style="display: flex;justify-content: space-between;">
+									<label for=""> {{notif.code_activite}} : {{notif.Description |
+										limitTo:30}}...</label>
+									<!-- Importer le module ngx-translate -->
+									<label for="">| {{ formatFrenchDate(notif.date_enregistrement)}}</label>
+								</div>
+							</a>
+							<a href="javascript:;" class="dropdown-item"
+								ng-click="ValideNotification(notif.id);getMyIndicateur(notif.id_activite_ptba)"
+								ng-if="notif.Suivi == 3" data-toggle="modal" data-target="#exampleModal111">
+								<div style="display: flex;justify-content: space-between;">
+									<label for=""> {{notif.code_activite}} : {{notif.Description |
+										limitTo:30}}...</label>
+									<!-- Importer le module ngx-translate -->
+									<label for="">| {{ formatFrenchDate(notif.date_enregistrement)}}</label>
+								</div>
+							</a>
+						</div>
+
+					</div>
+				</li>
+			</ul>
+			<!-- <ul class="navbar-nav navbar-right">
+				<li class="dropdown navbar-user">
+					<a href="" ng-click="LoadConvention()" class="dropdown-toggle" data-toggle="dropdown">
+						<span class="h4 text-white">Convention</span>
+					</a>
+				</li>
+			</ul> -->
+			<!-- end header navigation right -->
+
+			<!-- begin header title -->
+			<div class="header-title">
+				<h1>SYSTÈME DE SUIVI ÉVALUATION DU PDC2V (PTBA)</h1>
+			</div>
+
+			<!-- end header title -->
+		</div>
+
+		<!-- end #header -->
+
+		<!-- begin #sidebar -->
+		<div id="sidebar" class="sidebar">
+			<!-- begin sidebar scrollbar -->
+			<div data-scrollbar="true" data-height="100%">
+				<!-- begin sidebar user -->
+				<ul class="nav">
+					<li class="nav-profile">
+						<a href="javascript:;" data-toggle="nav-profile">
+							<div class="cover with-shadow"></div>
+							<div class="image">
+								<!-- <img src="../../img/ruche.png" alt="" /> -->
+							</div>
+							<div class="">
+								{{nom}}
+							</div>
+						</a>
+					</li>
+				</ul>
+				<!-- end sidebar user -->
+				<!-- begin sidebar nav -->
+				<ul class="nav">
+					<!-- begin sidebar minify button -->
+					<li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i
+								class="fa fa-angle-double-left"></i></a>
+							</li>
+					<!-- end sidebar minify button -->
+					<li class="has-sub">
+						<b class="caret"></b>
+						<a href="#/" style='font-size: 19px; font-weight: 500; font-family: sans-serif;'
+							class="text-white">
+							<i class="fas fa-home text-white"></i>
+							<span>Accueil</span>
+						</a>
+					</li>
+					<li class="has-sub">
+						<a href="javascript:;">
+							<b class="caret"></b>
+							<i style="color: white !important;" class="fas fa-money-bill-wave"></i>
+							<spa style="font-size: 17px !important;" class="label label-theme">Suivis</span>
+						</a>
+
+						<ul class="sub-menu">
+							<li class="menu-item">
+								<a href="#/Activite" class="text-white">
+									<span class="nav-link1"><i class="fas fa-newspaper  isize"></i> Activités</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="#/Decaissements" class="text-white">
+									<span class="nav-link1"> <i class="fab fa-mizuni  isize"></i> Décaissements </span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="#/Indicateur" class="text-white">
+									<span class="nav-link1"><i class="fas fa-th-large  isize"></i> Indicateurs </span>
+								</a>
+							</li>
+						</ul>
+					</li>
+					<!--  -->
+					<li class="has-sub" ng-if="partenaire == 09">
+						<a href="javascript:;">
+							<b class="caret"></b>
+							<i style="color: white !important;" class="fas fa-users"></i>
+							<spa style="font-size: 17px !important;" class="label label-theme">Spécialiste</span>
+						</a>
+						<ul class="sub-menu">
+							<!--<li class="menu-item">
+								<a href="#/Prioritaire" class="text-white">
+									<span class="nav-link1"> <i class="fas fa-newspaper  isize"></i> Activités 
+										prioritaire </span>
+								</a>
+							</li>
+							 <li class="menu-item">
+								<a href="#/Planification" class="text-white">
+									<span class="nav-link1"> <i class="fas fa-newspaper  isize"></i> Planification
+										sous tâches </span>
+								</a>
+							</li> -->
+							<li class="menu-item">
+								<a href="#/hebdomadaire" class="text-white">
+									<span class="nav-link1"> <i class="fab fa-mizuni  isize"></i> Suivi activités 
+										prioritaire
+									</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="#/Mission" class="text-white">
+									<span class="nav-link1"><i class="fas fa-th-large  isize"></i> Missions </span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="#/Recommandation" class="text-white">
+									<span class="nav-link1"><i class="fas fa-th-large  isize"></i> Recommandation
+									</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="has-sub">
+						<a href="javascript:;">
+							<b class="caret"></b>
+							<i style="color: white !important;" class="fas fa-expand"></i>
+							<spa style="font-size: 17px !important;" class="label label-theme">Rapports</span>
+						</a>
+						<ul class="sub-menu">
+							<li class="menu-item">
+								<a href="#/Etat" class="text-white">
+									<span class="nav-link1"> <i class="fas fa-newspaper  isize"></i> Etats des activités
+									</span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="#/SDecaissement" class="text-white">
+									<span class="nav-link1"> <i class="fab fa-mizuni  isize"></i> Décaissements </span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="#/SIndicateur" class="text-white">
+									<span class="nav-link1"><i class="fas fa-th-large  isize"></i> Indicateurs de
+										résultats </span>
+								</a>
+							</li>
+							<li class="menu-item">
+								<a href="#/Difficultes" class="text-white">
+									<span class="nav-link1"><i class="fas fa-university  isize"></i> Difficultés </span>
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<!-- end sidebar nav -->
+			</div>
+			<!-- end sidebar scrollbar -->
+		</div>
+
+
+		<div class="sidebar-bg"></div>
+		<!-- end #sidebar -->
+
+		<!-- begin #content -->
+		<div id="content" class="content" ng-view>
+
+		</div>
+		<!-- end #content -->
+
+
+		<div class="modal fade" id="countdownModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm">
+				<div class="modal-content">
+					<div class="modal-header bg-warning">
+						<h3>Bonjour <strong>{{nom}} </strong>!</h3>
+					</div>
+					<div class="modal-body" idle-countdown="countdown" ng-init="countdown=30">
+						<p>Vous serez d&eacute;connect&eacute; dans <span class="label label-warning"
+								style="font-size:16px">11</span> <span ng-pluralize="" count="countdown"
+								when="{'one': 'second', 'other': 'seconds' }"></span>.
+						</p>
+						<div class="progress">
+							<div class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
+								role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax=""
+								ng-style="{'width':(countdown*100)/30}">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- begin #footer -->
+		<div id="footer" class="footer">
+			&copy; Copyright ©
+			<script>document.write(new Date().getFullYear());</script> | Tous droits réservés | RUCHE par <a
+				href="https://cosit-mali.com/" target="_blank" style="font-size: 12px; font-weight: 900;"
+				rel="noopener noreferrer">COSIT-SARL</a>
+		</div>
+		<!-- end #footer -->
+
+		<a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade"
+			data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
+		<!-- end scroll to top btn -->
+	</div>
+	<!-- end page container -->
+
+	<!-- ================== BEGIN BASE JS ================== -->
+	<script src="../assets/plugins/jquery/jquery-3.3.1.min.js"></script>
+	<script src="../assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+	<script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!--[if lt IE 9]>
+		<script src="../assets/crossbrowserjs/html5shiv.js"></script>
+		<script src="../assets/crossbrowserjs/respond.min.js"></script>
+		<script src="../assets/crossbrowserjs/excanvas.min.js"></script>
+	<![endif]-->
+	<script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="../assets/plugins/js-cookie/js.cookie.js"></script>
+	<script src="../assets/js/theme/default.min.js"></script>
+	<script src="../assets/js/apps.min.js"></script>
+	<!-- ================== END BASE JS ================== -->
+
+	<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+	<script src="../assets/plugins/d3/d3.min.js"></script>
+	<script src="../assets/plugins/nvd3/build/nv.d3.js"></script>
+	<script src="../assets/plugins/jquery-jvectormap/jquery-jvectormap.min.js"></script>
+	<script src="../assets/plugins/jquery-jvectormap/jquery-jvectormap-world-merc-en.js"></script>
+	<script src="../assets/plugins/bootstrap-calendar/js/bootstrap_calendar.min.js"></script>
+	<!-- <script src="../assets/plugins/gritter/js/jquery.gritter.js"></script> -->
+	<!-- <script src="../assets/js/demo/dashboard-v2.min.js"></script> -->
+	<!-- ================== END PAGE LEVEL JS ================== -->
+	<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+	<script src="../assets/plugins/DataTables/media/js/jquery.dataTables.js"></script>
+	<script src="../assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js"></script>
+	<script src="../assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+	<script src="../assets/js/demo/table-manage-default.demo.min.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<script src="../assets/plugins/d3/d3.min.js"></script>
+	<script src="../assets/plugins/nvd3/build/nv.d3.js"></script>
+	<script src="../assets/js/demo/chart-d3.demo.min.js"></script>
+
+	<script src="../assets/plugins/chart-js/Chart.min.js"></script>
+	<!-- <script src="../assets/js/demo/chart-js.demo.min.js"></script> -->
+
+	<!-- ================== END PAGE LEVEL JS ================== -->
+	<script>
+		$(document).ready(function () {
+			App.init();
+			// DashboardV2.init();
+			TableManageDefault.init();
+			// ChartNvd3.init();
+			// ChartJs.init();
+		});
+	</script>
+	<script>
+		$(document).ready(function () {
+			$('li.has-sub').click(function () {
+				$('li.has-sub.active').removeClass("active");
+				$(this).addClass("active");
+			});
+		});
+	</script>
+</body>
+
+<!-- Mirrored from seantheme.com/color-admin-v4.3/admin/html/index_v2.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 23 Mar 2019 11:42:39 GMT -->
+
+</html>

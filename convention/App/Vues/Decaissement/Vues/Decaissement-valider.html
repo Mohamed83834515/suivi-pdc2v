@@ -1,0 +1,199 @@
+<section ng-init="InitialiseDecaissementG(3)">
+  <div class="app-title">
+    <div>
+      <h1><i class="icon fa fa-check mr-2"></i>{{Titre}}</h1>
+      <!-- <p>Liste des décaissements validés</p> -->
+    </div>
+    <!-- <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><i class="icon fa fa-circle-o"></i></i></li>
+      <li class="breadcrumb-item"><a href="#/Decaissement-en-attente">Decaissement validé</a></li>
+    </ul> -->
+  </div>
+  </div>
+    
+  <!-- <div class="row">
+    <div class="col-md-12">
+      <div class="tile">
+        
+        <div class="d-flex bd-highlight mb-3" >
+          <div class="p-2 bd-highlight mr-auto">
+            <select name="" ng-model="numeroAfficher"  class="custom-select custom-select-sm">
+              <option selected value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="p-2 bd-highlight">
+            <a href="" ng-click="getListeDecaissement(3)" class="btn btn-sm btn-outline-primary" title="Actualiser" type="button"><i class="fa fa-refresh"></i></a>
+          </div>
+          <div class="p-2 bd-highlight">
+            <input type="hidden" id="currency-mask">
+            <input type="search" class="form-control form-control-sm" ng-model="numero" placeholder="recherche">
+          </div>
+        </div>
+        <div class="tile-body">
+          <div class="table-responsive">
+            <div class="alert alert-primary" role="alert" ng-if="ListeDecaissement.length <= 0">
+              Aucune donnée disponible
+            </div>
+            <table class="table table-hover table-bordered dt-body-nowrap" style="width: 100%;" id="" ng-if="ListeDecaissement.length > 0">
+              <thead>
+                <tr>
+                  <th>N°Décaissement</th>
+                  <th>Bénéficiaire</th>
+                  <th>Montant</th>
+                  <th>Date creation</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr dir-paginate="Decaissement in ListeDecaissement  = ( ListeDecaissement | filter:numero ) | orderBy: order?'key':'-key' | itemsPerPage: numeroAfficher" current-page="pagination">
+                <td>{{Decaissement.NumeroDecaissement}}</td>
+                  <td>{{Decaissement.Beneficiaire}}</td>
+                  <td>{{SepareMilier(Decaissement.Montant)}}</td>
+                  <td>{{getDateTimeFormatFrensh(Decaissement.Datecreation)}}</td>
+                  <td>
+                    <a href="#/Detail-Decaissement/{{Decaissement.IdDecaissement}}?back={{currentPath}}">
+                      <i class="fa fa-eye mr-2 text-primary" style="font-size: 20px;" aria-hidden="true"></i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="alert alert-warning" ng-if="filtered_result.length == 0">
+              Aucune donnée trouve dans le tableau !
+            </div>
+           
+           <div class="d-flex bd-highlight" ng-show="ListeDecaissement.length > 0">
+            
+            <div class="p-2 bd-highlight ml-auto">
+                <dir-pagination-controls on-page-change="pageChangeHandler(newPageNumber)"  max-size="5" direction-links="true" boundary-links="true" ></dir-pagination-controls>
+            </div>
+          </div>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+ 
+  <!-- begin breadcrumb -->
+  <ol class="breadcrumb pull-right">
+    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+      <li class="breadcrumb-item"><a href="#/Dashboard">Tableau de bord</a></li>
+      <li class="breadcrumb-item"><a href="javascript:;">{{Titre}}</a></li>
+      <li class="breadcrumb-item active">Liste des décaissements validés</li>
+  </ol>
+  <!-- end breadcrumb -->
+
+  <!-- begin page-header -->
+  <h1 class="page-header"> <small> <br> </small></h1>
+  <!-- end page-header -->
+
+  <div class="modal fade" id="imageM" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #1565C0 !important;color: white;">
+          <h5 class="modal-title text-white" id="exampleModalLabel">Preuve de la fature N° : <span class="text-white">{{Decaissement.NumeroDecaissement}}</span> </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12" ng-repeat="photo in Decaissement.Photos">
+                    <iframe ng-show="Decaissement.Photos.length > 0" src="{{'../img/decaissement/'+getLibellePhoto(Decaissement.NumeroDecaissement,photo.Libelle)}}" title="" width="100%" height="500px">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- begin panel -->
+  <div class="panel panel-success">
+    <!-- begin panel-heading -->
+    <div class="panel-heading">
+        <div class="panel-heading-btn">
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-info" data-click="panel-reload" ng-click="getListeDecaissement(3)"><i class="fa fa-redo"></i></a>
+            <!-- <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a> -->
+            <!-- <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a> -->
+        </div>
+        <h4 class="panel-title">Liste des décaissements validés</h4>
+    </div>
+    <!-- end panel-heading -->
+    <!-- begin panel-body -->
+    <div class="panel-body">
+        <div class="d-flex bd-highlight mb-3" >
+            <div class="p-2 mr-auto bd-highlight">
+              <select name="" ng-model="numeroAfficher" class="custom-select custom-select-sm">
+                <option selected value="5">5</option>
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+            <div class="p-2 bd-highlight">
+              <a class="btn btn-sm btn-outline-success" type="button" data-click="panel-reload" ng-click="getListeDecaissement(3)" href=""><i class="fa fa-refresh"></i></a>
+            </div>
+            <div class="p-2 bd-highlight">
+              <input type="search" class="form-control form-control-sm" ng-keyup="myFunction()" id="numero" ng-model="numero" placeholder="recherche">
+            </div>
+          </div>
+          <div class="alert alert-primary" role="alert" ng-if="ListeDecaissement.length <= 0">
+            Aucune donnée disponible
+        </div>
+        <table id="" class="table table-striped table-bordered" ng-if="ListeDecaissement.length > 0">
+            <thead>
+                <tr>
+                    <!-- <th width="1%"></th> -->
+                    <th width="1%" data-orderable="false"></th>
+                    <th class="text-nowrap">N°Décaissement</th>
+                    <th class="text-nowrap">Bénéficiaire</th>
+                    <th class="text-nowrap">Montant</th>
+                    <th class="text-nowrap">Date creation</th>
+                    <th class="text-nowrap">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="odd gradeX" dir-paginate="Decaissement in ListeDecaissements  = ( ListeDecaissement | filter:numero ) | orderBy: order?'key':'-key' | itemsPerPage: numeroAfficher" current-page="pagination">
+                    <!-- <td width="1%" class="f-s-600 text-inverse">1</td> -->
+                    <td width="1%" class="with-img"><i class="fas fa-list"></i></td>
+                    <td>{{Decaissement.NumeroDecaissement}}</td>
+                    <td>{{Decaissement.Beneficiaire}}</td>
+                    <td>{{SepareMilier(Decaissement.Montant)}}</td>
+                    <td>{{getDateTimeFormatFrensh(Decaissement.Datecreation)}}</td>
+                    <td>
+                        <a
+                            href="#/Detail-Decaissement/{{Decaissement.IdDecaissement}}?back={{currentPath}}&page={{pagination}}&recherche={{numero}}">
+                            <i class="fa fa-eye mr-2 text-primary" style="font-size: 20px;" aria-hidden="true"></i>
+                        </a>
+                        <a data-toggle="modal" data-target="#imageM" href="" ng-click="getDecaissement(Decaissement.IdDecaissement)">
+                            <i class="fa fa-file-image-o mr-2 text-warning" title="Voir l'image" style="font-size: 20px;"
+                                aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex bd-highlight" ng-show="ListeDecaissement.length > 0">
+    
+            <div class="p-2 bd-highlight ml-auto">
+              <dir-pagination-controls on-page-change="pageChangeHandler(newPageNumber)"  max-size="5" direction-links="true" boundary-links="true" ></dir-pagination-controls>
+            </div>
+          </div>
+    </div>
+    <!-- end panel-body -->
+</div>
+<!-- end panel -->
+
+  <div class="form-group col-md-12">
+    <input type='hidden' id="decimage" accept=".pdf" class="form-control">
+    <span id="blah" src="#" alt="your image" width="100%"  ></span>
+  </div>
+  
+</section>

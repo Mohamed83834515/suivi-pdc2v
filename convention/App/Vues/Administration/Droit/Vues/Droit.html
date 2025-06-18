@@ -1,0 +1,121 @@
+<section ng-init="InitialiseDroitG()">
+  <div class="app-title">
+    <div>
+      <h1><i class="icon fa fa-ellipsis-h mr-2"></i>{{Titre}}</h1>
+    </div>
+  </div>
+
+  <!-- begin breadcrumb -->
+  <ol class="breadcrumb pull-right">
+    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+      <li class="breadcrumb-item"><a href="#/Dashboard">Tableau de bord</a></li>
+      <li class="breadcrumb-item"><a href="javascript:;">{{Titre}}</a></li>
+      <li class="breadcrumb-item active">Liste des droits</li>
+  </ol>
+  <!-- end breadcrumb -->
+
+  <!-- begin page-header -->
+  <h1 class="page-header"> <small><br></small></h1>
+  <!-- end page-header -->
+
+  <!-- begin panel -->
+  <div class="panel panel-success">
+    <!-- begin panel-heading -->
+    <div class="panel-heading">
+        <div class="panel-heading-btn">
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-info" data-click="panel-reload" ng-click="getListeDroit()"><i class="fa fa-redo"></i></a>
+            <!-- <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a> -->
+            <!-- <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a> -->
+        </div>
+        <h4 class="panel-title">Liste des droits</h4>
+    </div>
+    <!-- end panel-heading -->
+    <!-- begin panel-body -->
+    <div class="panel-body">
+        <div class="d-flex bd-highlight mb-3" >
+            <div class="p-2 mr-auto bd-highlight">
+            <select name="" ng-model="numeroAfficher" class="custom-select custom-select-sm">
+                <option selected value="5">5</option>
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+            </div>
+            <div class="p-2 bd-highlight">
+            <a ng-if="checkDroit(1)" href="" data-toggle="modal" data-target="#exampleModal" class="btn btn-sm btn-success" type="button"><i class="fas fa-plus-circle"></i> Ajouter un droit</a>
+            <a class="btn btn-sm btn-outline-success" type="button" data-click="panel-reload" ng-click="getListeDroit()" title="Actualiser" href=""><i class="fa fa-refresh"></i></a>
+            </div>
+            <div class="p-2 bd-highlight">
+            <input type="search" class="form-control form-control-sm" ng-keyup="myFunction()" id="numero" ng-model="numero" placeholder="recherche">
+            </div>
+        </div>
+        <table id="" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <!-- <th width="1%"></th> -->
+                    <th width="1%" data-orderable="false"></th>
+                    <th>Libellé</th>
+                    <th>Date creation</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr class="odd gradeX" dir-paginate="Droit in ListeDroit|itemsPerPage:numeroAfficher|filter:numero">
+                    <!-- <td width="1%" class="f-s-600 text-inverse">1</td> -->
+                    <td width="1%" class="with-img"><i class="fas fa-list"></i></td>
+                    <td>{{Droit.Libelle}}</td>
+                    <td>{{getDateTimeFormatFrensh(Droit.Datecreation)}}</td>
+                    <td>
+                        <a ng-if="checkDroit(2)" href="" data-toggle="modal" data-target="#exampleModal" ng-click="getDroit(Droit.IdDroit)">
+                        <i class="fa fa-pencil-square-o mr-2" style="color:blue;font-size: 20px;" aria-hidden="true"></i>
+                        </a>
+                        <a ng-if="checkDroit(3)" href="" ng-click="SuppressionDroit(Droit.IdDroit)">
+                        <i class="fa fa-trash" style="color:red;font-size: 20px;" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex bd-highlight" ng-show="ListeModule.length > 0">
+            <div class="p-2 bd-highlight ml-auto">
+            <dir-pagination-controls on-page-change="pageChangeHandler(newPageNumber)"  max-size="5" direction-links="true" boundary-links="true" ></dir-pagination-controls>
+            </div>
+        </div>
+    </div>
+    <!-- end panel-body -->
+</div>
+<!-- end panel -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #1565C0 !important;">
+          <h5 class="modal-title text-white" id="exampleModalLabel">Edition droit</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form name="FormDroit" novalidate>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Libelle:</label>
+              <input type="text" class="form-control" name="Droit" placeholder="Libelle" ng-model="Droit.Libelle" ng-pattern="regexCote" required>
+              <span style="color:red;" ng-show="FormDroit.Droit.$dirty && FormDroit.Droit.$invalid">Champ obligatoire ou caractère invalide</span>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button name="Valider" value="Valider" ng-click="ValiderEditionDroit()" class="btn btn-success"  type="submit" ng-disabled="FormDroit.Droit.$invalid"><i
+            class="fa fa-fw fa-lg fa-check-circle"></i>Valider</button>
+        <button class="btn btn-danger" data-dismiss="modal" aria-label="Close"><i
+            class="fa fa-fw fa-lg fa-times-circle"></i><span aria-hidden="true">Annuler</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+</section>

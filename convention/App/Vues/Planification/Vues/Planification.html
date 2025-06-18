@@ -1,0 +1,379 @@
+<section>
+    <section ng-init="InitialisePlanification()">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-inverse">
+                    <div class="panel-heading">
+                        <div class="panel-heading-btn">
+                            <a href="javascript:;" title="Afficher" class="btn btn-xs btn-icon btn-circle btn-default"
+                                data-click="panel-expand"><i class="fa fa-expand"></i></a>
+
+                            <!-- <!- <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a> -> -->
+                        </div>
+                        <h4 class="panel-title text-uppercase">Planifications hebdomadaires des tâches  :
+                            <span class="libelle">{{getLibelle()}}</span></h4>
+                    </div>
+                    <style>
+                        .t-grey {
+                            font-size: 18px !important;
+                            font-weight: 500 !important;
+                            color: white !important;
+                        }
+                    </style>
+                    <div class="panel-body">
+                        <div class="d-flex bd-highlight mb-3">
+                            <div class="p-2 mr-auto bd-highlight">
+                                <label for="" class="mr-2"> version PTBA </label>
+                                <select class="form-control" ng-change="ChangeVersion(Version);getActiviteChange(Version)" id="selectElement" placeholder="Type de Piece" name="Version" ng-model="Version" required>
+                                    <option  value="{{Version}}" ng-if="Version == null" selected disabled>{{getLibelle()}}</option>
+                                    <option ng-repeat="TypeBeneficiaire in ListeVerion" value="{{TypeBeneficiaire.id_version_ptba}}" ng-if="Version == null && TypeBeneficiaire.id_version_ptba != VersionOne">{{TypeBeneficiaire.observation + '-' + TypeBeneficiaire.version_ptba}}</option>
+                                    <option ng-repeat="TypeBeneficiaire in ListeVerion" value="{{TypeBeneficiaire.id_version_ptba}}" ng-if="Version != null">{{TypeBeneficiaire.observation + '-' + TypeBeneficiaire.version_ptba}}</option>
+                                </select>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <a class="btn btn-sm btn-outline-success" type="button" data-toggle="modal"
+                                    data-target="#exampleModal" ng-click="" title="Ajouter" href=""><i
+                                        class="fa fa-plus"> Ajouter</i></a>
+                                <a class="btn btn-sm btn-outline-success" type="button" data-click="panel-reload"
+                                    ng-click="" title="Actualiser" href=""><i class="fa fa-refresh"></i>
+                                </a>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <input type="search" class="form-control form-control-sm" ng-keyup="myFunction()"
+                                    id="numero" ng-model="numero" placeholder="recherche">
+                            </div>
+                        </div>
+                        <!-- Button trigger modal -->
+
+
+                        <!-- Modal -->
+
+                        <table id="" class="table table-striped table-responsive table-bordered">
+                            <thead>
+                                <tr>
+                                    <th width="150">Responsable </th>
+                                    <th width="100">Code activité</th>
+                                    <th width="500">Intitulé de l'activité</th>
+                                    <th width="300">Tâches</th>
+                                    <th width="100"> Responsable Associés</th>
+                                    <th width="100">Délai de la tâches</th>
+                                    <th width="100">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="odd gradeX"
+                                    dir-paginate="Planification in ListePlanification|itemsPerPage:numeroAfficher|filter:numero">
+                                    <td width="80">
+                                        <label for="" ng-repeat="activite1 in ListeActivite1"
+                                            ng-if="activite1.id_personnel == Planification.id_personnel">
+                                            {{activite1.fonction}}
+                                        </label>
+                                    </td>
+                                    <td width="100">
+                                        <label for="" ng-repeat="activite in ListeActivite"
+                                            ng-if="activite.id_ptba == Planification.contrat">
+                                            {{activite.code_activite_ptba}}
+                                        </label>
+                                    </td>
+                                    <td width="350">
+                                        <label for="" ng-repeat="activite in ListeActivite"
+                                            ng-if="activite.id_ptba == Planification.contrat">
+                                            {{activite.intitule_activite_ptba}}
+                                        </label>
+                                    </td>
+                                    <td width="300">
+                                        <label for="" class="text-dark">{{Planification.sous_activite}}</label>
+                                    </td>
+                                    <td>
+                                        {{ getResponsableNoms(Planification.numero_avenant) }}
+                                    </td>
+                                    <td>
+                                        {{Planification.date_avenant | date:'dd/MM/yyyy'}}
+                                    </td>
+                                    <td>
+                                        <a href="" ng-click="getPlanificationById(Planification.id_suivi)"
+                                            title="Modifier" data-toggle="modal" data-target="#exampleModal1"
+                                            data-dismiss="modal">
+                                            <i class="fa fa-pencil-square-o mr-2"
+                                                style="color:#231dd9;font-size: 20px;"></i>
+                                        </a>
+                                        <a href="" ng-click="ValideDeleteById(Planification.id_suivi)"
+                                            title="Supprimer">
+                                            <i class="fas fa-trash-alt mr-2" style="color:red;font-size: 20px;"></i>
+                                        </a>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="background-color: #168e37 !important;">
+                                        <h5 class="modal-title text-white" id="exampleModalLabel">Planifié une Tâche
+                                        </h5>
+                                        <button type="button" ng-click="InitialiseActivite()" class="close"
+                                            data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <form name="FormMotif11" novalidate>
+                                            <div class="row">
+                                                <!-- Premier groupe de champs -->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <!-- <label for="message-text" class="col-form-label">Réalisation {{Motif.CodeTache}}  <span
+                                                                    style="color:red;"> *</span></label> -->
+                                                        <input type="hidden" class="form-control"
+                                                            ng-value="{{id_activite_ptba_1}}" name="Motif"
+                                                            placeholder="Libelle" ng-model="Motif.IdTache"
+                                                            ng-pattern="regexCote">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <label for="message-text"
+                                                            class="col-form-label col-lg-3">Activité <span
+                                                                style="color:red;"> *</span></label>
+                                                        <div class="col-lg-9">
+                                                            <select class="form-control" name="activite"
+                                                                ng-model="Motif.activite" required>
+
+                                                                <option value="" disabled selected>-- choisir --
+                                                                </option>
+                                                                <option ng-repeat="activite in ListeActivite"
+                                                                    value="{{activite.id_ptba}}">
+                                                                    {{activite.code_activite_ptba+ ": " +
+                                                                    activite.intitule_activite_ptba}}</option>
+                                                            </select>
+                                                            <span style="color:red;"
+                                                                ng-show="FormMotif11.activite.$touched && FormMotif11.activite.$invalid">Champ
+                                                                obligatoire ou caractère invalide</span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                
+                                                <!-- Premier champ textarea : {{Motif.Difficultes}}-->
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <label for="message-text"
+                                                            class="col-form-label col-lg-3">Tâches<span
+                                                                style="color:red;"> *</span></label>
+                                                        <div class="col-lg-9">
+                                                            <textarea class="form-control" name="tache"
+                                                                placeholder="Tâches" ng-model="Motif.tache"
+                                                                ng-pattern="regexCote" required></textarea>
+                                                            <span style="color:red;"
+                                                                ng-show="FormMotif11.tache.$touched && FormMotif11.tache.$invalid">Champ
+                                                                obligatoire ou caractère invalide
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <label for="message-text"
+                                                            class="col-form-label col-lg-3">Delai<span
+                                                                style="color:red;"> *</span></label>
+                                                        <div class="col-lg-9">
+                                                            <input class="form-control" ng-model="Motif.Delai"
+                                                                name="Delai" type="date" required
+                                                                ng-model-options="{ 'timezone': 'UTC', 'format': 'yyyy-MM-dd' }">
+                                                            <span style="color:red;"
+                                                                ng-show="FormMotif11.Delai.$touched && FormMotif11.Delai.$invalid">Champ
+                                                                obligatoire ou caractère invalide
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <label for="message-text"
+                                                            class="col-form-label col-lg-3">Responsable associé<span
+                                                                style="color:red;"> *</span></label>
+                                                        <div class="col-lg-9">
+                                                            <select class="form-control" name="Responsable"
+                                                                ng-model="Motif.Responsable" required multiple>
+                                                                </option>
+                                                                <option ng-repeat="activite in ListeActivite1"
+                                                                    value="{{activite.N}}">{{activite.nom+ " "
+                                                                    +activite.prenom}}</option>
+                                                            </select>
+                                                            <span style="color:red;"
+                                                                ng-show="FormMotif11.Responsable.$touched && FormMotif11.Responsable.$invalid">Champ
+                                                                obligatoire ou caractère invalide</span>
+                                                        </div>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <!-- Deuxième champ textarea  ng-disabled="FormMotif11.$invalid"-->
+
+                                            </div>
+
+
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button name="Valider" value="Valider" ng-click="ValiderPlanification()"
+                                            class="btn" style="background-color: #168e37;color: white;" type="submit">
+                                            <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider
+                                        </button>
+
+                                        <button data-toggle="modal" data-target="#exampleModal1" class="btn btn-danger"
+                                            data-dismiss="modal" aria-label="Close">
+                                            <i class="fa fa-fw fa-lg fa-times-circle"></i><span
+                                                aria-hidden="true">Annuler</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="background-color: #168e37 !important;">
+                                        <h5 class="modal-title text-white" id="exampleModalLabel">Modifier planification </h5>
+                                        <button type="button" ng-click="InitialiseActivite()" class="close"
+                                            data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form name="FormMotif2" novalidate>
+                                            <div class="row">
+                                                <!-- Premier groupe de champs -->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <!-- <label for="message-text" class="col-form-label">Réalisation {{Motif.CodeTache}}  <span
+                                                                    style="color:red;"> *</span></label> -->
+                                                        <input type="hidden" class="form-control" name="Motif"
+                                                            placeholder="Libelle" ng-model="Motif.IdTache"
+                                                            ng-pattern="regexCote">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <label for="message-text"
+                                                            class="col-form-label col-lg-3">Activité <span
+                                                                style="color:red;"> *</span>
+                                                        </label>
+                                                        <div class="col-lg-9">
+                                                            <select class="form-control" name="activite"
+                                                                ng-model="Motif.activite" required>
+
+                                                                <option value="" disabled selected>-- choisir --
+                                                                </option>
+                                                                <option ng-repeat="activite in ListeActivite"
+                                                                    value="{{activite.id_ptba}}">
+                                                                    {{activite.code_activite_ptba+ ": " +
+                                                                    activite.intitule_activite_ptba}}</option>
+                                                            </select>
+                                                            <span style="color:red;"
+                                                                ng-show="FormMotif2.activite.$touched && FormMotif2.activite.$invalid">Champ
+                                                                obligatoire ou caractère invalide</span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                
+                                                <!-- Premier champ textarea : {{Motif.Difficultes}}-->
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <label for="message-text"
+                                                            class="col-form-label col-lg-3">Tâches<span
+                                                                style="color:red;"> *</span></label>
+                                                        <div class="col-lg-9">
+                                                            <textarea class="form-control" name="tache"
+                                                                placeholder="Tâches" ng-model="Motif.tache"
+                                                                ng-pattern="regexCote" required></textarea>
+                                                            <span style="color:red;"
+                                                                ng-show="FormMotif2.tache.$touched && FormMotif2.tache.$invalid">Champ
+                                                                obligatoire ou caractère invalide</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <label for="message-text" class="col-form-label col-lg-3">Delai 
+                                                            <span style="color:red;">
+                                                            *</span>
+                                                        </label>
+                                                        <div class="col-lg-9">
+                                                            <input class="form-control"  ng-model="Motif.Delai" name="Delai"
+                                                            ng-model-options="{ 'timezone': 'UTC', 'format': 'yyyy-MM-dd' }"   type="date" required>
+                                                            <span style="color:red;"
+                                                                ng-show="FormMotif2.Delai.$touched && FormMotif2.Delai.$invalid">Champ
+                                                                obligatoire ou caractère invalide
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <label for="message-text"
+                                                            class="col-form-label col-lg-3">Responsable associé<span
+                                                                style="color:red;"> *</span></label>
+                                                        <div class="col-lg-9">
+                                                            <select class="form-control" name="Responsable"
+                                                                ng-model="Motif.Responsable" required multiple>
+                                                                <option ng-repeat="activite in ListeActivite1"
+                                                                    value="{{activite.N}}">{{activite.nom+ " "
+                                                                    +activite.prenom}}</option>
+                                                            </select>
+                                                            <span style="color:red;"
+                                                                ng-show="FormMotif2.Responsable.$touched && FormMotif2.Responsable.$invalid">Champ
+                                                                obligatoire ou caractère invalide</span>
+                                                        </div>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <!-- Deuxième champ textarea  ng-disabled="FormMotif11.$invalid"-->
+
+                                            </div>
+
+
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button name="Valider" value="Valider" ng-click="ValideUpdatePlanification()"
+                                            class="btn" style="background-color: #168e37;color: white;" type="submit">
+                                            <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider
+                                        </button>
+
+                                        <button data-toggle="modal" data-target="#exampleModal1" class="btn btn-danger"
+                                            data-dismiss="modal" aria-label="Close">
+                                            <i class="fa fa-fw fa-lg fa-times-circle"></i><span
+                                                aria-hidden="true">Annuler</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="d-flex bd-highlight" ng-show="ListePlanification.length > 0">
+                            <div class="p-2 bd-highlight ml-auto">
+                                <dir-pagination-controls on-page-change="pageChangeHandler(newPageNumber)" max-size="5"
+                                    direction-links="true" boundary-links="true"></dir-pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+</section>

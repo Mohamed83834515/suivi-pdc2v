@@ -1,0 +1,95 @@
+<div class="row">
+  <!-- Premier groupe de champs -->
+  <div class="col-md-6">
+      <div class="form-group">
+          <label for="message-text" class="col-form-label">Réalisation <span
+                  style="color:red;"> *</span></label>
+          <input type="text" class="form-control" ng-value="{{Motif.Nlot}}" name="Motif"
+              placeholder="Libelle" ng-model="Motif.Nlot" ng-pattern="regexCote" required>
+          <input type="hidden" class="form-control" ng-value="{{Motif.IdTache}}"
+              name="Motif" placeholder="Libelle" ng-model="Motif.IdTache"
+              ng-pattern="regexCote" required>
+          <input type="hidden" class="form-control" ng-value="{{Motif.CodeTache}}"
+              name="Motif" placeholder="Libelle" ng-model="Motif.CodeTache"
+              ng-pattern="regexCote" required>
+          <span style="color:red;"
+              ng-show="FormMotif.Motif.$dirty && FormMotif.Motif.$invalid">Champ
+              obligatoire ou caractère invalide</span>
+      </div>
+      <div class="form-group">
+          <label for="message-text" class="col-form-label">Date de suivi<span
+                  style="color:red;"> *</span></label>
+          <input class="form-control no-placeholder" ng-model="Motif.DateReelle"
+              type="date" required
+              ng-model-options="{ 'timezone': 'UTC', 'format': 'yyyy-MM-dd' }">
+          <span style="color:red;"
+              ng-show="FormMotif.Motif.$dirty && FormMotif.Motif.$invalid">Champ
+              obligatoire ou caractère invalide</span>
+      </div>
+  </div>
+
+  <!-- Deuxième groupe de champs -->
+  <div class="col-md-6">
+      <div class="form-group">
+          <label for="message-text" class="col-form-label">Source de vérification:</label>
+          <input type="file" class="form-control" name="Motif" placeholder="Libelle"
+              ng-model="Motif.Livrable" ng-pattern="regexCote">
+
+      </div>
+      <div class="form-group">
+          <label for="message-text" class="col-form-label">Statut de l'activité {{Motif.StatutTache}} <span
+                  style="color:red;"> *</span></label>
+          <select class="form-control" name="selectChoice" ng-model="Motif.StatutTache"
+              required>
+
+              <option value="Non Détermine">Non déterminé</option>
+              <option value="En cours">En cours</option>
+              <option value="Acheve">Achevé</option>
+          </select>
+      </div>
+  </div>
+</div>
+
+ 
+  <!-- Premier champ textarea -->
+  <div class="col-md-6">
+      <div class="form-group">
+          <label for="message-text" class="col-form-label">Difficultés : {{Motif.Difficultes}}</label>
+          <textarea type="text" class="form-control" name="Motif" placeholder="Libelle" ng-value="Motif.Difficultes"
+              ng-model="Motif.Difficultes" ng-pattern="regexCote"></textarea>
+          </span>
+      </div>
+  </div>
+
+  <!-- Deuxième champ textarea -->
+  <div class="col-md-6">
+      <div class="form-group">
+          <label for="message-text" class="col-form-label">Observations</label>
+          <textarea class="form-control" name="Motif" placeholder="Libelle"
+              ng-value="{{Motif.Observation}}" ng-model="Motif.Observation"
+              ng-pattern="regexCote"></textarea>
+
+      </div>
+  </div>
+ 
+ 
+  <!-- Premier champ textarea -->
+  <div class="col-md-6">
+      <div class="form-group">
+          <label for="message-text" class="col-form-label">Retard accusé:{{Motif.Retard}}</label>
+          <textarea class="form-control" name="Motif" placeholder="Libelle"
+              ng-model="Motif.Retard" ng-pattern="regexCote"></textarea>
+
+      </div>
+  </div>
+
+  <!-- Deuxième champ textarea -->
+  <div class="col-md-6">
+      <div class="form-group">
+          <label for="message-text" class="col-form-label">Piste de solution {{Motif.PisteSolutions}} </label>
+          <textarea type="text" class="form-control" name="Motif" placeholder="Libelle"
+              ng-model="Motif.PisteSolutions" ng-pattern="regexCote"></textarea>
+
+      </div>
+  </div>
+ 

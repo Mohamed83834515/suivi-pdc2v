@@ -1,0 +1,75 @@
+<section ng-init="InitialiseEditionDecaissementG()">
+  <div class="app-title">
+    <div>
+      <h1><i class="icon fa fa-money mr-2"></i>{{Titre}}</h1>
+      <p>Edition</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+      <li class="breadcrumb-item"><a href="#/Decaissement">Decaissement</a></li>
+    </ul>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tile">
+        <h3 class="tile-title"></h3>
+        <div class="tile-body">
+          <form class="form-row" name="FormDecaissement" novalidate>
+            <div class="form-group col-md-6">
+              <label class="control-label">Motif <span class="text-danger">*</span></label>
+              <select  class="form-control" name="IdMtf" id="IdMtf" ng-model="Decaissement.IdMtf" required>
+                <option ng-repeat="Motif in ListeMotif" value="{{Motif.IdMotif}}"> {{Motif.Libelle}} </option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label">Type de pièces <span class="text-danger">*</span></label>
+              <select  class="form-control" name="IdTyp" id="IdTyp" ng-model="Decaissement.IdTyp" required>
+                <option ng-repeat="TypePiece in ListeTypePiece" value="{{TypePiece.IdTypePiece}}"> {{TypePiece.Libelle}} </option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label">Numero de pièces <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="NumeroPiece" ng-model="Decaissement.NumeroPiece" placeholder="C00207895F" ng-pattern="regex" required>
+              <span style="color:red;" ng-show="FormDecaissement.NumeroPiece.$dirty && FormDecaissement.NumeroPiece.$invalid">Champ obligatoire ou caractère invalide</span>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label">Nom & Prenoms du bénéficiaire <span class="text-danger">*</span></label>
+              <input type="name" class="form-control" name="Beneficiaire" ng-model="Decaissement.Beneficiaire" placeholder="Nom & Prenoms" ng-pattern="regex" required>
+              <span style="color:red;" ng-show="FormDecaissement.Beneficiaire.$dirty && FormDecaissement.Beneficiaire.$invalid">Champ obligatoire ou caractère invalide</span>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label">Téléphone <span class="text-danger">*</span></label>
+              <input type="tel" class="form-control" name="NumeroBeneficiaire" ng-model="Decaissement.NumeroBeneficiaire" placeholder="52001522" ng-pattern="regexNumber" required>
+              <span style="color:red;" ng-show="FormDecaissement.NumeroBeneficiaire.$dirty && FormDecaissement.NumeroBeneficiaire.$invalid">Champ obligatoire ou caractère invalide</span>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="control-label">Montant <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="Montant" ng-model="Decaissement.Montant"  placeholder="10000" ng-pattern="regexNumber" required>
+              <span style="color:red;" ng-show="FormDecaissement.Montant.$dirty && FormDecaissement.Montant.$invalid">Champ obligatoire ou caractère invalide</span>
+            </div>
+			<!--
+            <div class="form-group col-md-12">Ajouter un commentaire ? <input type="checkbox" ng-model="myVar"></div>
+            <div class="form-group col-md-12" ng-show="myVar">
+              <label class="control-label">Commentaire <span class="text-danger">*</span></label>
+              <textarea class="form-control" rows="4" name="Commentaire" ng-model="Decaissement.Commentaire" placeholder="Commentaire" required></textarea>
+            </div>
+			-->
+          </form>
+        </div>
+        <div class="tile-footer">
+          <div class="row">
+            <div class="col-md-8 col-md-offset-3">
+              <button name="Valider" value="Valider" class="btn btn-success" type="submit" 
+              ng-disabled="FormDecaissement.IdMtf.$invalid || FormDecaissement.IdTyp.$invalid || FormDecaissement.NumeroPiece.$invalid || FormDecaissement.Beneficiaire.$invalid || FormDecaissement.NumeroBeneficiaire.$invalid || FormDecaissement.Montant.$invalid"
+              ng-click="ValiderRelanceDecaissement()">
+                <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider</button>
+              &nbsp;&nbsp;&nbsp;<a class="btn btn-danger" href="#/Decaissement-refuser">
+                <i class="fa fa-fw fa-lg fa-times-circle"></i>Annuler</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearix"></div>
+  </div>
+</section>

@@ -1,0 +1,578 @@
+<section>
+    <section ng-init="InitialiseHebdomadaire()">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-inverse">
+                    <div class="panel-heading">
+                        <div class="panel-heading-btn">
+                            <a href="javascript:;" title="Afficher" class="btn btn-xs btn-icon btn-circle btn-default"
+                                data-click="panel-expand"><i class="fa fa-expand"></i></a>
+
+                            <!-- <!- <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a> -> -->
+                        </div>
+                        <h4 class="panel-title text-uppercase">Suivi hebdomadaires des tâches planifiés :
+                            <span class="libelle">{{getLibelle()}}</span></h4>
+                    </div>
+                    <style>
+                        .t-grey {
+                            font-size: 18px !important;
+                            font-weight: 500 !important;
+                            color: white !important;
+                        }
+                    </style>
+                    <div class="panel-body">
+                        <div class="d-flex bd-highlight mb-3">
+                            <div class="p-2 mr-auto bd-highlight">
+                                <!-- <label for="" class="mr-2"> version PTBA </label>
+                                <select class="form-control"
+                                    ng-change="ChangeVersion(Version);getActiviteChange(Version);getTauxDecaisserByuserVersion(Version)"
+                                     name="Version" ng-model="Version"
+                                    required>
+                                    <option value="{{Version}}" ng-if="Version == null" selected disabled>
+                                        {{getLibelle()}}</option>
+                                    <option ng-repeat="TypeBeneficiaire in ListeVerion"
+                                        value="{{TypeBeneficiaire.id_version_ptba}}"
+                                        ng-if="Version == null && TypeBeneficiaire.id_version_ptba != VersionOne">
+                                        {{TypeBeneficiaire.date_validation + '-' + TypeBeneficiaire.version_ptba}}</option>
+                                    <option ng-repeat="TypeBeneficiaire in ListeVerion"
+                                        value="{{TypeBeneficiaire.id_version_ptba}}" ng-if="Version != null">
+                                        {{TypeBeneficiaire.date_validation + '-' + TypeBeneficiaire.version_ptba}}</option>
+                                </select> -->
+                            </div>
+                            <div class="p-2 bd-highlight">
+
+                                <a class="btn btn-sm btn-outline-success" type="button" data-click="panel-reload"
+                                    ng-click="" title="Actualiser" href=""><i class="fa fa-refresh"></i></a>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <input type="search" class="form-control form-control-sm" ng-keyup="myFunction()"
+                                    id="numero" ng-model="numero" placeholder="recherche">
+                            </div>
+                        </div>
+                        <!-- Button trigger modal -->
+
+
+                        <!-- Modal -->
+
+                        <table id="" class="table table-striped table-responsive table-bordered">
+                            <thead>
+                                <tr>
+                                    <!-- <th>Responsable </th> -->
+                                    <th width="400">Activité</th>
+                                    <th width="300">Tâche</th>
+                                    <th width="300">Sous tâche</th>
+                                    <!-- <th> Responsable Associés</th> -->
+                                    <th>Délai de la sous tâches</th>
+                                    <th width="200">Etat d'avancement</th>
+                                    <th width="150">Statut de la sous tâche</th>
+                                    <!-- <th>Annotation</th> -->
+                                    <!-- <th>Date de suivi</th> -->
+                                    <th>Retard accusé</th>
+                                    <th>Nouvelle date projetée</th>
+                                    <!-- <th>Ressources / actions</th> -->
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="odd gradeX"
+                                    dir-paginate="Planification in ListePlanification1|itemsPerPage:numeroAfficher|filter:numero">
+                                    <td ng-repeat="activites in ListeActivite" ng-if="Planification.contrat == activites.id_groupe_tache">
+                                        <label ng-repeat="activites in ListeActivite" ng-if="Planification.contrat == activites.id_groupe_tache">
+                                             {{activites.intitule_activite_ptba}} 
+                                        </label>
+                                    </td>
+                                    <td ng-repeat="activites in ListeActivite" ng-if="Planification.contrat == activites.id_groupe_tache">
+                                         <br>
+                                        <label ng-repeat="activites in ListeActivite" ng-if="Planification.contrat == activites.id_groupe_tache">
+                                          <label for="" style="color: #707478 !important;font-weight: 400;">{{activites.code_tache}}: {{activites.intitule_tache}}</label>  
+                                               ({{activites.date_debut | date:'dd/MM/yyyy'}}|{{activites.date_fin | date:'dd/MM/yyyy'}})
+                                        </label>
+                                        
+                                    </td>
+                                    <td width="300" ng-repeat="activites in ListeActivite" ng-if="Planification.contrat == activites.id_groupe_tache">
+                                        {{Planification.sous_activite}} | {{Planification.contrat}}
+                                    </td>
+                                    <!-- <td width="350">
+                                        <label for="" ng-repeat="activite in ListeActivite"
+                                            ng-if="activite.id_ptba == Planification.contrat">
+                                            <label ng-if="Planification.intituleReduit">
+                                                {{ activite.intitule_activite_ptba }}
+                                                <a href="" style="color: red"
+                                                    ng-click="toggleIntitule(Planification)">Afficher moins</a>
+                                            </label>
+                                            <label ng-if="!Planification.intituleReduit">
+
+                                                {{ activite.intitule_activite_ptba | limitTo:20 }}
+                                                <span ng-if="activite.intitule_activite_ptba.length > 20">...</span>
+                                                <a href="" style="color: #168e37;"
+                                                    ng-click="toggleIntitule(Planification)">Afficher plus
+                                                </a>
+                                            </label>
+                                        </label>
+                                    </td> -->
+                                    <!-- <td width="300">
+                                        <label for="" class="text-dark">{{Planification.sous_activite}}</label>
+                                    </td> 
+                                    <td>
+                                        <label for="">
+                                            {{ getResponsableNoms(Planification.numero_avenant) }}
+                                        </label>
+                                    </td>-->
+                                    <td ng-repeat="activites in ListeActivite" ng-if="Planification.contrat == activites.id_groupe_tache">
+                                        {{Planification.date_avenant | date:'dd/MM/yyyy'}}
+                                    </td ng-repeat="activites in ListeActivite" ng-if="Planification.contrat == activites.id_groupe_tache">
+                                    <td ng-repeat="activites in ListeActivite" ng-if="Planification.contrat == activites.id_groupe_tache">{{getLastEtat(Planification.id_suivi)}} <br>
+                                        <label for="" ng-if="getLastDateRealise(Planification.id_suivi) != null">({{getLastDateRealise(Planification.id_suivi) | date:'dd/MM/yyyy'}})</label>
+                                        
+                                    </td>
+                                    <td ng-repeat="activites in ListeActivite" ng-if="Planification.contrat == activites.id_groupe_tache">
+                                        <label ng-click="getSuiviById(Planification.id_suivi)" data-toggle="modal"
+                                            data-target="#exampleModal">
+                                            <label ng-if="getLastStatut(Planification.id_suivi) != null">
+                                                <a ng-if="getLastStatut(Planification.id_suivi) == 'Achevée'"
+                                                    style="color: #168E37; text-align: center !important;justify-content: center;"
+                                                    href="">{{getLastStatut(Planification.id_suivi)}}
+                                                </a>
+                                                <a ng-if="getLastStatut(Planification.id_suivi) == 'En cours'"
+                                                    style="color: #E79300;"
+                                                    href="">{{getLastStatut(Planification.id_suivi)}}
+                                                </a>
+                                                <a ng-if="getLastStatut(Planification.id_suivi) == 'non démarée' || getLastStatut(Planification.id_suivi) == 'démarée hors delai'"
+                                                    style="color: #da0f0f;"
+                                                    href="">{{getLastStatut(Planification.id_suivi)}}
+                                                </a>
+                                            </label>
+                                            <label ng-if="getLastStatut(Planification.id_suivi) == null">
+                                                <a style="color: #da0f0f;"
+                                                    href="">Non démarée
+                                                </a>
+                                            </label>
+                                        </label>
+                                        <br>
+                                        <!-- <label for="" ng-if="getLastStatut(Planification.id_suivi) == 'Achevée'"
+                                            style="color: #168e37;">
+                                             (Achevée)
+                                        </label>
+                                        <label for="" ng-if="getLastStatut(Planification.id_suivi) != 'Achevée'"
+                                            style="color: #e73e00;">
+                                            (Hors délai)
+                                        </label> -->
+                                        <!-- {{getLastStatut(Planification.id_suivi)}} -->
+                                    </td>
+                                    <!-- <td>
+                                        <label for="" ng-if="getLastStatut(Planification.id_suivi) == 'Achevée'"
+                                            style="color: #168e37;">
+                                            <i class="fa fa-check-circle">
+                                            </i> Achevée
+                                        </label>
+                                        <label for="" ng-if="getLastStatut(Planification.id_suivi) != 'Achevée'"
+                                            style="color: #e73e00;">
+                                            <i class="fas fa-arrows-alt">
+                                            </i> Hors délai
+                                        </label>
+                                    </td>
+                                    <td></td> -->
+                                    <td ng-repeat="activites in ListeActivite" ng-if="Planification.contrat == activites.id_groupe_tache">
+                                        <label style="color: red !important;"
+                                            ng-if="getRetard(getLastStatut(Planification.id_suivi), Planification.date_avenant,getLastDateRealise(Planification.id_suivi)) < 0">
+                                            {{removeNegativeSign(getRetard(getLastStatut(Planification.id_suivi),Planification.date_avenant,getLastDateRealise(Planification.id_suivi)))}}
+                                            jours depassé
+                                        </label>
+                                        <label style="color: #168e37 !important;"
+                                            ng-if="getRetard(getLastStatut(Planification.id_suivi), Planification.date_avenant,getLastDateRealise(Planification.id_suivi)) > 0">
+                                            il reste
+                                            {{getRetard(getLastStatut(Planification.id_suivi),Planification.date_avenant,getLastDateRealise(Planification.id_suivi))}}
+                                            jours
+                                        </label>
+                                        <label
+                                            ng-if="getRetard(getLastStatut(Planification.id_suivi), Planification.date_avenant,getLastDateRealise(Planification.id_suivi)) == 0">
+                                            ___
+                                        </label>
+                                    </td>
+                                    <td ng-repeat="activites in ListeActivite" ng-if="Planification.contrat == activites.id_groupe_tache">{{getLastDateProjetee(Planification.id_suivi) | date:'dd/MM/yyyy'}}</td>
+                                    <!-- <td>{{getLastAction(Planification.id_suivi)}}</td> -->
+                                    <td ng-repeat="activites in ListeActivite" ng-if="Planification.contrat == activites.id_groupe_tache">
+                                        <label for="" ng-if="getLastStatut(Planification.id_suivi) == 'Achevée'">
+                                            <a>
+                                                <i class="fa fa-check-circle mr-2"
+                                                    style="color:#168e37;font-size: 20px;">
+                                                </i>
+                                            </a>
+                                        </label>
+                                        <label for="" ng-if="getLastStatut(Planification.id_suivi) != 'Achevée'">
+
+                                            <a href="" ng-click="getPlanificationById(Planification.id_suivi)"
+                                                title="Modifier" data-toggle="modal" data-target="#exampleModal1"
+                                                data-dismiss="modal">
+                                                <i class="fa fa-plus-circle mr-2"
+                                                    style="color:#e79300;font-size: 20px;">
+                                                </i>
+                                            </a>
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header"
+                                        style="background-color:#168E37; color: white !important;">
+                                        <h5 class="modal-title" id="exampleModalLabel">
+                                            <label class="text-white text-center"
+                                                 ng-repeat="activite in ListePlanification"
+                                                ng-if="Motif.id_planification === activite.id_suivi">
+                                                {{activite.sous_activite}}
+                                            </label>
+                                        </h5>
+                                        <a href=""
+                                            ng-if="getTache(id_activite_ptba_1) != 'Achevé' && showbutton1(id_activite_ptba_1) === 2 || suividata.length === 0"
+                                            style="color: white;background-color: black; font-size: 20px; padding: 5px"
+                                            ng-click="InitialiseDashboardG();Motif.IdTache = id_activite_ptba_1"
+                                            class="btn-sm btn col-lg-2" data-toggle="modal" data-target="#exampleModal"
+                                            data-dismiss="modal">
+                                            <i class="fas fa-plus-circle"> Nouveau</i>
+                                        </a>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table id="" class="table table-striped table-responsive table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th width="130">Statut</th>
+                                                    <th width="200">Etat d'avancement</th>
+                                                    <th width="110">Date de projection</th>
+                                                    <th width="110">Date de réalisation</th>
+                                                    <th width="200">Ressources</th>
+                                                    <th width="150">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr class="odd gradeX" ng-repeat="suivi in suividata">
+                                                    <!-- <td>{{Motif.code_suivi}} {{Motif.etat}}</td> -->
+                                                    <td>{{suivi.statut}}</td>
+                                                    <td>{{suivi.etat_avancement}}</td>
+                                                    <td>{{ suivi.date_projection | date:'dd/MM/yyyy' }}</td>
+                                                    <td>{{ suivi.date_realisation | date:'dd/MM/yyyy' }}</td>
+                                                    <td>{{ suivi.ressources}}</td>
+                                                    <td>
+                                                        <!-- <div ng-repeat="activite in ListeActivite.activites" ng-if="activite.responsable === nom1 || activite.executant === nom1 && Motif.id_activite_ptba === activite.id_ptba"> -->
+                                                        <div ng-if="suivi.etat != 1">
+                                                            <a href="" ng-click="getPlanById(suivi.id_suivi)"
+                                                                title="Modifier" data-toggle="modal"
+                                                                data-target="#exampleModall1" data-dismiss="modal">
+                                                                <i class="fa fa-pencil-square-o mr-2"
+                                                                    style="color:#231dd9;font-size: 20px;"></i>
+                                                            </a>
+                                                            <a href=""
+                                                                ng-click="confirmDelete(Motif.id_planification,suivi.id_suivi)"
+                                                                title="Supprimer">
+                                                                <i class="fas fa-trash-alt mr-2"
+                                                                    style="color:#cf0d0d;font-size: 20px;"></i>
+                                                            </a>
+                                                            <!-- <label for=""ng-repeat="Planification in ListePlanification"
+                                                                ng-if="Planification.id_suivi === Motif.id_planification">
+                                                                {{Planification.responsable}}
+                                                                <label for="" ng-if="Planification.responsable === 'admin'">
+                                                                    <a href=""
+                                                                        ng-click="getAlertValider(Motif.id_planification,suivi.id_suivi)"
+                                                                        title="Valider"> <i
+                                                                            class="fas fa-check-circle fa-2x"></i> 
+                                                                        </a>
+                                                                </label>
+                                                            </label> -->
+                                                        </div>
+                                                        <!-- </div> -->
+                                                        <div ng-if="Motif.etat == 1">
+                                                            <label>
+                                                                <i class="fas fa-check mr-2"
+                                                                    style="color:#168E37;font-size: 20px;"
+                                                                    aria-hidden="true"> validée</i>
+                                                            </label>
+                                                        </div>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <!-- <button type="button" class="btn btn-seocndary"
+                        data-dismiss="modal">Close</button> -->
+                                        <button type="button" style="background-color: #168E37; color: white;"
+                                            data-dismiss="modal" class="btn"> <i class="fas fa-close"> </i>
+                                            Fermer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="background-color: #168e37 !important;">
+                                        <h5 class="modal-title text-white" id="exampleModalLabel">Suivi planification</h5>
+                                        <button type="button" ng-click="InitialiseActivite()" class="close"
+                                            data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form name="FormMotif2" novalidate>
+                                            <div class="row">
+                                                <!-- Premier groupe de champs -->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <!-- <label for="message-text" class="col-form-label">Réalisation {{Motif.CodeTache}}  <span
+                                                                    style="color:red;"> *</span></label> -->
+                                                        <input type="hidden" class="form-control" name="Motif"
+                                                            placeholder="Libelle" ng-model="Motif.IdTache"
+                                                            ng-pattern="regexCote">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <label for="message-text" class="col-form-label col-lg-3">Etat
+                                                            d'avancement<span style="color:red;"> *</span></label>
+                                                        <div class="col-lg-9">
+                                                            <textarea class="form-control" name="etat_avancement"
+                                                                placeholder="etat_avancement"
+                                                                ng-model="Motif.etat_avancement" ng-pattern="regexCote"
+                                                                required></textarea>
+                                                            <span style="color:red;"
+                                                                ng-show="FormMotif2.etat_avancement.$touched && FormMotif2.etat_avancement.$invalid">Champ
+                                                                obligatoire ou caractère invalide</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <label for="message-text" class="col-form-label col-lg-3">Statut
+                                                            <span style="color:red;"> *</span>
+                                                        </label>
+                                                        <div class="col-lg-9">
+                                                            <select class="form-control" name="statut"
+                                                                ng-model="Motif.statut" required>
+
+                                                                <option value="" disabled selected>-- choisir --
+                                                                </option>
+                                                                <option value="Achevée">Achevée</option>
+                                                                <option value="En cours">En cours</option>
+                                                                <!-- <option value="démarée hors delai">démarée hors delai -->
+                                                                </option>
+                                                                <option value="non démarée">non démarée</option>
+                                                            </select>
+                                                            <span style="color:red;"
+                                                                ng-show="FormMotif2.statut.$touched && FormMotif2.statut.$invalid">Champ
+                                                                obligatoire ou caractère invalide</span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <label for="message-text"
+                                                            class="col-form-label col-lg-3">Nouvelle date projetée
+                                                            <span style="color:red;">
+                                                                *</span></label>
+                                                        <div class="col-lg-9">
+                                                            <input class="form-control" ng-model="Motif.date_projection"
+                                                                name="date_projection"
+                                                                ng-model-options="{ 'timezone': 'UTC', 'format': 'yyyy-MM-dd' }"
+                                                                type="date" required>
+                                                            <span style="color:red;"
+                                                                ng-show="FormMotif2.date_projection.$touched && FormMotif2.date_projection.$invalid">Champ
+                                                                obligatoire ou caractère invalide
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="col-md-12" ng-if="Motif.statut == 'Achevée'">
+                                                    <div class="form-group row">
+                                                        <label for="message-text" class="col-form-label col-lg-3">Date de réalisation
+                                                          <span style="color:red;">
+                                                                *</span></label>
+                                                        <div class="col-lg-9">
+                                                            <input class="form-control"
+                                                                ng-model="Motif.date_realisation" name="date_realisation"
+                                                                ng-model-options="{ 'timezone': 'UTC', 'format': 'yyyy-MM-dd' }" type="date" required>
+                                                            <span style="color:red;"
+                                                                ng-show="FormMotif2.date_realisation.$touched && FormMotif2.date_realisation.$invalid">Champ
+                                                                obligatoire ou caractère invalide
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div> -->
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <label for="message-text" class="col-form-label col-lg-3">Action
+                                                            ou ressources <span style="color:red;"> *</span></label>
+                                                        <div class="col-lg-9">
+                                                            <textarea class="form-control" name="ressources"
+                                                                placeholder="ressources" ng-model="Motif.ressources"
+                                                                ng-pattern="regexCote" required></textarea>
+                                                            <span style="color:red;"
+                                                                ng-show="FormMotif2.ressources.$touched && FormMotif2.ressources.$invalid">Champ
+                                                                obligatoire ou caractère invalide</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button name="Valider" value="Valider"
+                                            ng-click="ValideUpdatePlanification(Motif.IdTache)" class="btn"
+                                            style="background-color: #168e37;color: white;" type="submit">
+                                            <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider
+                                        </button>
+
+                                        <button data-toggle="modal" data-target="#exampleModal1" class="btn btn-danger"
+                                            data-dismiss="modal" aria-label="Close">
+                                            <i class="fa fa-fw fa-lg fa-times-circle"></i><span
+                                                aria-hidden="true">Annuler</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="exampleModall1" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="background-color: #168e37 !important;">
+                                        <h5 class="modal-title text-white" id="exampleModalLabel">Modification Suivi
+                                            {{Motif.id_planification}}</h5>
+                                        <button type="button" ng-click="InitialiseActivite()" class="close"
+                                            data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form name="FormMotif222" novalidate>
+                                            <div class="row">
+                                                <!-- Premier groupe de champs -->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <!-- <label for="message-text" class="col-form-label">Réalisation {{Motif.CodeTache}}  <span
+                                                                    style="color:red;"> *</span></label> -->
+                                                        <input type="hidden" class="form-control" name="Motif"
+                                                            placeholder="Libelle" ng-model="Motif.IdTache"
+                                                            ng-pattern="regexCote">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <label for="message-text" class="col-form-label col-lg-3">Etat
+                                                            d'avancement<span style="color:red;"> *</span></label>
+                                                        <div class="col-lg-9">
+                                                            <textarea class="form-control" name="etat_avancement"
+                                                                placeholder="etat_avancement"
+                                                                ng-model="Motif.etat_avancement" ng-pattern="regexCote"
+                                                                required></textarea>
+                                                            <span style="color:red;"
+                                                                ng-show="FormMotif222.etat_avancement.$touched && FormMotif222.etat_avancement.$invalid">Champ
+                                                                obligatoire ou caractère invalide</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <label for="message-text" class="col-form-label col-lg-3">Statut
+                                                            <span style="color:red;"> *</span>
+                                                        </label>
+                                                        <div class="col-lg-9">
+                                                            <select class="form-control" name="statut"
+                                                                ng-model="Motif.statut" required>
+
+                                                                <option value="" disabled selected>-- choisir --
+                                                                </option>
+                                                                <option value="Achevée">Achevée</option>
+                                                                <option value="En cours">En cours</option>
+                                                                <!-- <option value="démarée hors delai">démarée hors delai -->
+                                                                </option>
+                                                                <option value="non démarée">non démarée</option>
+                                                            </select>
+                                                            <span style="color:red;"
+                                                                ng-show="FormMotif222.statut.$touched && FormMotif222.statut.$invalid">Champ
+                                                                obligatoire ou caractère invalide</span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <label for="message-text"
+                                                            class="col-form-label col-lg-3">Nouvelle date projetée
+                                                            <span style="color:red;">
+                                                                *</span></label>
+                                                        <div class="col-lg-9">
+                                                            <input class="form-control" ng-model="Motif.date_projection"
+                                                                name="date_projection" type="date" ng-model-options="{ 'timezone': 'UTC', 'format': 'yyyy-MM-dd' }" required>
+                                                            <span style="color:red;"
+                                                                ng-show="FormMotif222.date_projection.$touched && FormMotif222.date_projection.$invalid">Champ
+                                                                obligatoire ou caractère invalide
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <label for="message-text" class="col-form-label col-lg-3">Action
+                                                            ou ressources <span style="color:red;"> *</span></label>
+                                                        <div class="col-lg-9">
+                                                            <textarea class="form-control" name="ressources"
+                                                                placeholder="ressources" ng-model="Motif.ressources"
+                                                                ng-pattern="regexCote" required></textarea>
+                                                            <span style="color:red;"
+                                                                ng-show="FormMotif222.ressources.$touched && FormMotif222.ressources.$invalid">Champ
+                                                                obligatoire ou caractère invalide</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button name="Valider" value="Valider"
+                                            ng-click="ValideUpdatePlanificationSuivi(Motif.id_planification)" class="btn"
+                                            style="background-color: #168e37;color: white;" type="submit">
+                                            <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider
+                                        </button>
+
+                                        <button data-toggle="modal" data-target="#exampleModal" class="btn btn-danger"
+                                            data-dismiss="modal" aria-label="Close">
+                                            <i class="fa fa-fw fa-lg fa-times-circle"></i><span
+                                                aria-hidden="true">Annuler</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex bd-highlight" ng-show="ListePlanification.length > 0">
+                            <div class="p-2 bd-highlight ml-auto">
+                                <dir-pagination-controls on-page-change="pageChangeHandler(newPageNumber)" max-size="5"
+                                    direction-links="true" boundary-links="true"></dir-pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+</section>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" ng-app="DECAISSEMENT">
+<!--<![endif]-->
+
+<!-- Mirrored from seantheme.com/color-admin-v4.3/admin/html/login_v3.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 23 Mar 2019 11:48:00 GMT -->
+
+<head>
+	<meta charset="utf-8" />
+	<title>Connexion</title>
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+
+	<script type="text/javascript" src="App/Js/jquery.min.js"></script>
+	<script type="text/javascript" src="App/Js/angular.min.js"></script>
+	<script type="text/javascript" src="App/Js/angular-idle.min.js"></script>
+	<script type="text/javascript" src="App/Js/angular-route.min.js"></script>
+	<script type="text/javascript" src="App/Js/angular-cookies.min.js"></script>
+	<script type="text/javascript" src="App/Js/dirPaginate.js"></script>
+	<script type="text/javascript" src="App/Js/cleave-js/cleave-angular.min.js"></script>
+	<script type="text/javascript" src="App/Js/cleave-js/cleave-phone.i18n.js"></script>
+	<script src="App/Js/root.js"></script>
+	<script type="text/javascript" src="App/Js/angular-block-ui.min.js"></script>
+	<script type="text/javascript" src="App/Vues/Login/Controllers/LoginControllers.js"></script>
+	<script type="text/javascript" src="App/Js/sweetalert.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="App/css/angular-block-ui.min.css">
+	<link rel="stylesheet" href="assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
+	<link rel="stylesheet" href="assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css" />
+	<link rel="stylesheet" href="assets/css/demo.css" />
+	<!-- ================== BEGIN BASE CSS STYLE ================== -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+	<link href="App/assets/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+	<link href="App/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="App/assets/plugins/font-awesome/css/all.min.css" rel="stylesheet" />
+	<link href="App/assets/plugins/animate/animate.min.css" rel="stylesheet" />
+	<link href="App/assets/css/default/style.min.css" rel="stylesheet" />
+	<link href="App/assets/css/default/style-responsive.min.css" rel="stylesheet" />
+	<link href="App/assets/css/default/theme/default.css" rel="stylesheet" id="theme" />
+	<!-- ================== END BASE CSS STYLE ================== -->
+
+	<!-- ================== BEGIN BASE JS ================== -->
+	<script src="App/assets/plugins/pace/pace.min.js"></script>
+	<!-- ================== END BASE JS ================== -->
+</head>
+
+<body class="pace-top bg-light" style="background: rgb(230, 236, 236) !important;">
+	<!-- begin #page-loader -->
+	<div id="page-loader" class="fade show"><span class="spinner"></span></div>
+	<!-- end #page-loader -->
+	<nav style="background: #168E37 ! important;"
+		class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
+		<div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+			<div class="">
+				<img src="App/img/ruche.png" width="120" height="52" alt="logo">
+			</div>
+
+			<div>
+				<img src="App/assets/img/login-bg/ruche.jpg" width="100" height="54" alt="logo">
+			</div>
+		</div>
+
+	</nav>
+
+	<!-- begin #page-container -->
+	<div id="page-container" class="fade" ng-controller="LoginController">
+		<!-- begin login -->
+		<div class="">
+			<!-- begin news-feed -->
+			<!-- <div class="news-feed">
+				<div class="news-image" style="background-image: url(App/assets/img/login-bg/ruche.jpg);
+				background-size: auto;"
+				></div>
+				<div class="news-caption">
+					<!- <h4 class="caption-title"><b>Bill</b>Soft App</h4> ->
+					
+					
+				</div>
+			</div> -->
+			<!-- end news-feed -->
+			<!-- begin right-content -->
+			<div class="">
+				<!-- begin login-header -->
+				<div class="login-header" padding: 20px>
+					<div class="brand" style="padding: 20px;border-radius: 80%;">
+						<!-- <img style="padding: 10px; margin-left: 10%;border-radius: 80%;" src="App/assets/img/login-bg/ruche.jpg" with="120" height="120" alt="logo"> -->
+					</div>
+					<div class="icon">
+						<i class="fa fa-sign-in"></i>
+					</div>
+
+				</div>
+				<!-- end login-header -->
+				<!-- begin login-content -->
+				<style>
+					.login-content {
+						background: white;
+						width: 23%;
+						position: absolute;
+						padding: 30px;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%, -50%);
+					}
+				</style>
+				<div class="login-content" ng-show="veirification == 0">
+					<div class=" text-inverse text-center">
+						<h6 style="font-size: 16px;color:#168E37;" class="mb-2">Bienvenue sur le Système Informatisé de
+							Suivi- Évaluation </h6>
+						<!-- <p class="mb-3">Entrer vos identifiants</p> -->
+						<a href="#"
+							style="color:#100e0c;font-size: 20px;margin-top: 200px;font-weight: 500; padding-top: 100px;"
+							data-toggle="flip">Connexion</a>
+					</div>
+					<br>
+					<form name="myForm" class="margin-bottom-0" novalidate>
+						<div class="form-group m-b-15"
+							ng-class="{'has-error': myForm.$dirty && myForm.Pseudo.$invalid, 'has-success': myForm.Pseudo.$valid}">
+							<input type="text" class="form-control form-control-lg" name="Pseudo"
+								ng-model="Utilisateur.Pseudo" placeholder="Pseudo" required />
+							<span style="color:red;" ng-show="myForm.Pseudo.$touched && myForm.Pseudo.$invalid">
+								Champ obligatoire</span>
+							<!-- <span style="color:red;" ng-show="myForm.Pseudo.$dirty && myForm.Pseudo.$invalid">Le nom d'utilisateur doit avoir au moins 3 caractères</span> -->
+						</div>
+						<div class="form-group m-b-15"
+							ng-class="{'has-error': myForm.$dirty && myForm.MotDePasse.$invalid, 'has-success': myForm.MotDePasse.$valid}">
+							<div class="input-group ">
+								<input type="password" class="form-control form-control-lg" placeholder="Mot de passe"
+									id="myInput" name="MotDePasse" ng-model="Utilisateur.MotDePasse" required />
+								<div class="input-group-append">
+									<span style="cursor: pointer;" ng-click="myFunction()" class="input-group-text"> <i
+											class="fas fa-eye"></i></span>
+								</div>
+							</div>
+							<span style="color:red;"
+								ng-show="myForm.MotDePasse.$touched && myForm.MotDePasse.$invalid">Champ
+								obligatoire</span>
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="remember-me" />
+								<label class="form-check-label text-black" for="remember-me">Se souvenir de moi </label>
+							</div>
+
+						</div>
+						<!-- <div class="form-group m-b-15"
+								ng-class="{'has-error': myForm.$dirty && myForm.suivi.$invalid, 'has-success': myForm.suivi.$valid}">
+								<select class="form-select form-select-lg" name="suivi" ng-model="suivi" required>
+									<option value="1">PTBA</option>
+									<option value="2">CONVENTION</option>
+								</select>
+								<span style="color:red;" ng-show="myForm.suivi.$touched && myForm.suivi.$invalid">Champ
+									obligatoire</span>
+									
+							</div> -->
+						<div class="login-buttons">
+							<button type="submit" ng-click="Login()"
+								style="background:#168E37; color: white !important;" class="btn btn-block btn-lg"
+								ng-disabled="myForm.$invalid">Se connecter</button>
+						</div>
+					</form>
+				</div>
+				<div class="login-content" ng-show="veirification == 1">
+					<div class=" text-inverse text-center">
+						<h6 style="font-size: 16px;color:#168E37;" class="mb-2"> Veuillez selectionner un projet ! </h6>
+						<!-- <p class="mb-3">Entrer vos identifiants</p> -->
+						<form name="formverfiication" class="margin-bottom-0" novalidate>
+							<div class="form-group m-b-15"
+								ng-class="{'has-error': formverfiication.$dirty && formverfiication.selectedProject.$invalid, 'has-success': formverfiication.selectedProject.$valid}">
+								<select class="form-control form-control-lg" name="selectedProject"
+									ng-model="selectedProject" required>
+									<option value="1">Toutes des activités</option>
+									<option value="0">Suivi les activités</option>
+								</select>
+								<span style="color:red;"
+									ng-show="formverfiication.selectedProject.$touched && formverfiication.selectedProject.$invalid">Champ
+									obligatoire</span>
+							</div>
+
+							<div class="login-buttons">
+								<button type="submit" ng-click="CheckActivite(selectedProject)"
+									style="background:#168E37; color: white !important;" class="btn btn-block btn-lg"
+									ng-disabled="formverfiication.$invalid">Valider
+								</button>
+							</div>
+						</form>
+					</div>
+					<br>
+				</div>
+
+
+				<!-- <p class="text-center text-grey-darker">
+					&copy;<script>
+						document.write(new Date().getFullYear());
+					  </script> <a href="#">RUCHE</a> | par <a href="#" target="_blank">COSIT-SARL</a>
+                </p> -->
+				<!-- end login-content -->
+			</div>
+
+
+
+			<!-- end right-container -->
+		</div>
+		<!-- end login -->
+		<!-- <footer style="position: fixed;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		background-color: #051025f5;
+		color: #333;
+		text-align: center;
+		padding: 10px;">
+			 <div class="mb-2 mb-md-0 text-white">
+				&copy;
+			  <script>
+				document.write(new Date().getFullYear());
+			  </script>
+			  RUCHE 🧱 par
+			  <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">COSIT-SARL</a>
+			</div>
+		</footer> -->
+		<!-- <footer class="content-footer footer bg-footer-theme">
+			<div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+			  <div class="mb-2 mb-md-0 text-white">
+				  &copy;
+				<script>
+				  document.write(new Date().getFullYear());
+				</script>
+				RUCHE 🧱 par
+				<a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">COSIT-SARL</a>
+			  </div>
+			 
+			</div>
+		  </footer> -->
+	</div>
+	<!-- end page container -->
+
+	<!-- ================== BEGIN BASE JS ================== -->
+	<script src="App/assets/plugins/jquery/jquery-3.3.1.min.js"></script>
+	<script src="App/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+	<script src="App/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!--[if lt IE 9]>
+		<script src="App/assets/crossbrowserjs/html5shiv.js"></script>
+		<script src="App/assets/crossbrowserjs/respond.min.js"></script>
+		<script src="App/assets/crossbrowserjs/excanvas.min.js"></script>
+	<![endif]-->
+	<script src="App/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="App/assets/plugins/js-cookie/js.cookie.js"></script>
+	<script src="App/assets/js/theme/default.min.js"></script>
+	<script src="App/assets/js/apps.min.js"></script>
+	<!-- ================== END BASE JS ================== -->
+
+	<script>
+		$(document).ready(function () {
+			App.init();
+		});
+	</script>
+
+</body>
+
+<!-- Mirrored from seantheme.com/color-admin-v4.3/admin/html/login_v3.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 23 Mar 2019 11:48:00 GMT -->
+
+</html>

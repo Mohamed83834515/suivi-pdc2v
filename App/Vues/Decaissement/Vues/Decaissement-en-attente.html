@@ -1,0 +1,233 @@
+<section ng-init="InitialiseDecaissementG(2)">
+  <div class="app-title">
+    <div>
+      <h1><i class="icon fa fa-circle-o mr-2"></i>{{Titre}}</h1>
+      <!-- <p>Liste des décaissements en attente</p> -->
+    </div>
+    <!-- <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><i class="icon fa fa-money mr-2"></i></li>
+      <li class="breadcrumb-item"><a href="#/Decaissement">Decaissement</a></li>
+    </ul> -->
+  </div>
+
+  <!-- begin breadcrumb -->
+  <ol class="breadcrumb pull-right">
+    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+      <li class="breadcrumb-item"><a href="#/Dashboard">Tableau de bord</a></li>
+      <li class="breadcrumb-item"><a href="javascript:;">{{Titre}}</a></li>
+      <li class="breadcrumb-item active">Liste des décaissements en attente</li>
+  </ol>
+  <!-- end breadcrumb -->
+
+  <!-- begin page-header -->
+  <h1 class="page-header"> <small> <br> </small></h1>
+  <!-- end page-header -->
+  
+  <div ng-init="InitialiseEditionDecaissementG()" class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #1565C0; color: white;">
+          <h5 class="modal-title text-white"  id="exampleModalLabel">Edition Decaissement</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="form-row" name="FormDecaissement" novalidate>
+            <div class="form-group col-md-12">
+              <label class="control-label">Motif <span class="text-danger">*</span></label>
+              <select class="form-control font-weight-bold" name="IdMtf" id="IdMtf" ng-model="Decaissement.IdMtf" required>
+                <option ng-repeat="Motif in ListeMotif" value="{{Motif.IdMotif}}"> {{Motif.Libelle}} </option>
+              </select>
+            </div>
+            <div class="form-group col-md-12">
+              <label class="control-label">Bénéficiaire <span class="text-danger">*</span></label>
+              <select class="form-control font-weight-bold" name="IdBnf" id="IdBnf" ng-model="Decaissement.IdBnf" required>
+                <option ng-repeat="Beneficiaire in ListeBeneficiaire" value="{{Beneficiaire.IdBeneficiaire}}">{{Beneficiaire.Nom}}</option>
+              </select>
+            </div>
+            <div class="form-group col-md-12">
+              <label class="control-label">Date de réalisation <span class="text-danger">*</span></label>
+              <input type="date" class="form-control font-weight-bold" name="DateRealisation" ng-model="Decaissement.DateRealisation" required>
+            </div>
+            <div class="form-group col-md-12">
+              <label class="control-label">Montant <span class="text-danger">*</span></label>
+              <input type="text" cleave="cleaveOptions.numeral" class="form-control font-weight-bold" name="Montant" ng-model="Decaissement.Montant" placeholder="Saisissez le montant" required>
+              <span style="color:red;"
+                ng-show="FormDecaissement.Montant.$dirty && FormDecaissement.Montant.$invalid">champ obligatoire ou
+                caractère invalide</span>
+            </div>
+            <div class="form-group col-md-12">
+              <label class="control-label">Fichier <span class="text-danger">*</span></label>
+              <input type='file' id="decimage" accept=".pdf" class="form-control" required>
+              <div class="previewData">
+                  <iframe id="blah" src="#" alt="your image" width="100%"  ></iframe>
+              </div>
+            </div>
+            <div class="form-group col-md-12">Ajouter un commentaire ? <input type="checkbox" ng-model="myVar" ng-checked="myVar || Decaissement.Commentaire.length > 0" ng-change="Decaissement.Commentaire=''"></div>
+            <div class="form-group col-md-12" ng-if="myVar || Decaissement.Commentaire.length > 0">
+              <label class="control-label">Commentaire <span class="text-danger">*</span></label> <h6>Nombre de caractères saisie : <span class="badge badge-pill badge-warning">{{count ? count : 0}}</span></h6>
+              <textarea class="form-control font-weight-bold" rows="4" name="Commentaire" ng-model="Decaissement.Commentaire" ng-keydown="getkeys($event)" ng-keyup="getkeys($event)" ng-maxlength="maxLenghtComment" ng-pattern="regexCote" placeholder="Commentaire" required></textarea>
+              <span style="color:red;"
+                ng-show="FormDecaissement.Commentaire.$dirty && FormDecaissement.Commentaire.$invalid">Champ obligatoire et Nombre caractère max: {{maxLenghtComment}}</span>
+            </div>
+          </form>
+        </div>
+       
+        <div class="modal-footer">
+          <button name="Valider" value="Valider" class="btn btn-success" type="submit"
+            ng-disabled="FormDecaissement.$invalid"
+            ng-click="upload();ValiderEditionDecaissement()">
+            <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider</button>
+          <button class="btn btn-danger" data-dismiss="modal" aria-label="Close"><i
+              class="fa fa-fw fa-lg fa-times-circle"></i><span aria-hidden="true">Annuler</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #1565C0 !important;color: white !important;">
+          <h5 class="modal-title text-white" id="exampleModalLabel">Veuillez justifier votre choix</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form name="FormDec" novalidate>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Commentaire:</label> <span class="text-danger">*</span></label> <h6>Nombre de caractères saisie : <span class="badge badge-pill badge-warning">{{count ? count : 0}}</span></h6>
+              <input type="hidden" id="currency-mask">
+              <textarea class="form-control" id="message-text" name="commentaire" ng-model="Statut.Commentaire" ng-keydown="getkeyss($event)" ng-keyup="getkeyss($event)" ng-pattern="regexCote" ng-maxlength="maxLenghtComment" placeholder="Laisser un commentaire" required></textarea>
+              <span style="color:red;" ng-show="FormDec.commentaire.$dirty && FormDec.commentaire.$invalid">Champ obligatoire et Nombre caractère max: {{maxLenghtComment}}</span>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button name="Valider" value="Valider" ng-click="ValiderRejeterDecaissement(Decaissement.IdDecaissement)" class="btn btn-success" type="submit" ng-disabled="FormDec.commentaire.$invalid">
+            <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider</button>
+        <button class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+          <i class="fa fa-fw fa-lg fa-times-circle"></i><span aria-hidden="true">Annuler</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="imageM" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #1565C0 !important;color: white;">
+          <h5 class="modal-title text-white" id="exampleModalLabel">Preuve de la fature N° : <span class="text-white">{{Decaissement.NumeroDecaissement}}</span> </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12" ng-repeat="photo in Decaissement.Photos">
+                    <iframe ng-show="Decaissement.Photos.length > 0" src="{{'../img/decaissement/'+getLibellePhoto(Decaissement.NumeroDecaissement,photo.Libelle)}}" title="" width="100%" height="500px">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- begin panel -->
+    <div class="panel panel-success">
+    <!-- begin panel-heading -->
+    <div class="panel-heading">
+        <div class="panel-heading-btn">
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-info" data-click="panel-reload" ng-click="getListeDecaissement(2)"><i class="fa fa-redo"></i></a>
+            <!-- <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a> -->
+            <!-- <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a> -->
+        </div>
+        <h4 class="panel-title">Liste des décaissements en attente</h4>
+    </div>
+    <!-- end panel-heading -->
+    <!-- begin panel-body -->
+    <div class="panel-body">
+        <div class="d-flex bd-highlight mb-3" >
+            <div class="p-2 mr-auto bd-highlight">
+              <select name="" ng-model="numeroAfficher" class="custom-select custom-select-sm">
+                <option selected value="5">5</option>
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+            <div class="p-2 bd-highlight">
+              <a class="btn btn-sm btn-outline-success" type="button" data-click="panel-reload" ng-click="getListeDecaissement(2)" href=""><i class="fa fa-refresh"></i></a>
+            </div>
+            <div class="p-2 bd-highlight">
+              <input type="search" class="form-control form-control-sm" ng-keyup="myFunction()" id="numero" ng-model="numero" placeholder="recherche">
+            </div>
+          </div>
+          <div class="alert alert-primary" role="alert" ng-if="ListeDecaissement.length <= 0">
+            Aucune donnée disponible
+        </div>
+        <table id="" class="table table-striped table-bordered" ng-if="ListeDecaissement.length > 0">
+            <thead>
+                <tr>
+                    <!-- <th width="1%"></th> -->
+                    <th width="1%" data-orderable="false"></th>
+                    <th class="text-nowrap">N°Décaissement</th>
+                    <th class="text-nowrap">Bénéficiaire</th>
+                    <th class="text-nowrap">Montant</th>
+                    <th class="text-nowrap">Date creation</th>
+                    <th class="text-nowrap">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="odd gradeX" dir-paginate="Decaissement in ListeDecaissements  = ( ListeDecaissement | filter:numero ) | orderBy: order?'key':'-key' | itemsPerPage: numeroAfficher" current-page="pagination">
+                    <!-- <td width="1%" class="f-s-600 text-inverse">1</td> -->
+                    <td width="1%" class="with-img"><i class="fas fa-list"></i></td>
+                    <td>{{Decaissement.NumeroDecaissement}}</td>
+                    <td>{{Decaissement.Beneficiaire}}</td>
+                    <td>{{SepareMilier(Decaissement.Montant)}}</td>
+                    <td>{{getDateTimeFormatFrensh(Decaissement.Datecreation)}}</td>
+                    <td>
+                        <a href="#/Detail-Decaissement/{{Decaissement.IdDecaissement}}?back={{currentPath}}&page={{pagination}}&recherche={{numero}}">
+                            <i class="fa fa-eye mr-2 text-primary" title="Details" style="font-size: 20px;" aria-hidden="true"></i>
+                          </a>
+                          <a ng-if="checkDroit(2)" href="" data-toggle="modal" ng-click="getDecaissement(Decaissement.IdDecaissement)"
+                            data-target="#exampleModal">
+                              <i class="fa fa-pencil-square-o text-success mr-2" title="Modifier" style="font-size: 20px;"
+                                aria-hidden="true"></i>
+                            </a>
+                          <a href="" ng-if="checkDroit(5)" ng-click="ConfirmerValiderDecaissement(Decaissement.IdDecaissement,Decaissement.IdusrcreationStatut,Decaissement.NumeroDecaissement)">
+                            <i class="icon fa fa-check mr-2 text-success" title="Valider" style="font-size: 20px;" aria-hidden="true"></i>
+                          </a>
+                          <a ng-if="checkDroit(5)" data-toggle="modal" data-target="#exampleModal" ng-click="getDecaissement(Decaissement.IdDecaissement)" href="">
+                            <i class="fa fa-close mr-2 text-danger" title="Refuser" style="font-size: 20px;" aria-hidden="true"></i>
+                          </a>
+                          <a data-toggle="modal" data-target="#imageM" href="" ng-click="getDecaissement(Decaissement.IdDecaissement)">
+                            <i class="fa fa-file-image-o mr-2 text-warning" title="Voir l'image" style="font-size: 20px;" aria-hidden="true"></i>
+                          </a>
+                      </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex bd-highlight" ng-show="ListeDecaissement.length > 0">
+    
+            <div class="p-2 bd-highlight ml-auto">
+              <dir-pagination-controls on-page-change="pageChangeHandler(newPageNumber)"  max-size="5" direction-links="true" boundary-links="true" ></dir-pagination-controls>
+            </div>
+          </div>
+    </div>
+    <!-- end panel-body -->
+    </div>
+    <!-- end panel -->
+
+  <div class="form-group col-md-12">
+    <input type='hidden' id="decimage" accept=".pdf" class="form-control">
+    <span id="blah" src="#" alt="your image" width="100%"  ></span>
+  </div>
+
+</section>

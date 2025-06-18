@@ -1,0 +1,134 @@
+<section ng-init="InitialiseProfilG()">
+  <div class="app-title">
+    <div>
+      <h1><i class="icon fa fa-users mr-2"></i>Profil</h1>
+      <!-- <p>{{Titre}}</p> -->
+    </div>
+  </div>
+
+  <!-- begin breadcrumb -->
+  <ol class="breadcrumb pull-right">
+    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+      <li class="breadcrumb-item"><a href="#/Dashboard">Tableau de bord</a></li>
+      <li class="breadcrumb-item"><a href="javascript:;">{{Titre}}</a></li>
+      <li class="breadcrumb-item active">Liste des profils</li>
+  </ol>
+  <!-- end breadcrumb -->
+
+  <!-- begin page-header -->
+  <h1 class="page-header"> <small><br></small></h1>
+  <!-- end page-header -->
+
+  <!-- begin panel -->
+  <div class="panel panel-success">
+    <!-- begin panel-heading -->
+    <div class="panel-heading">
+        <div class="panel-heading-btn">
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-info" data-click="panel-reload" ng-click="getListeProfil()"><i class="fa fa-redo"></i></a>
+            <!-- <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a> -->
+            <!-- <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a> -->
+        </div>
+        <h4 class="panel-title">Liste des profils</h4>
+    </div>
+    <!-- end panel-heading -->
+    <!-- begin panel-body -->
+    <div class="panel-body">
+        <div class="d-flex bd-highlight mb-3" >
+            <div class="p-2 mr-auto bd-highlight">
+            <select name="" ng-model="numeroAfficher" class="custom-select custom-select-sm">
+                <option selected value="5">5</option>
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+            </div>
+            <div class="p-2 bd-highlight">
+            <a ng-if="checkDroit(1)" href="" data-toggle="modal" data-target="#exampleModal" class="btn btn-sm btn-success" type="button"><i class="fas fa-plus-circle"></i> Ajouter un profil</a>
+            <a class="btn btn-sm btn-outline-success" type="button" data-click="panel-reload" ng-click="getListeProfil()" title="Actualiser" href=""><i class="fa fa-refresh"></i></a>
+            </div>
+            <div class="p-2 bd-highlight">
+            <input type="search" class="form-control form-control-sm" ng-keyup="myFunction()" id="numero" ng-model="numero" placeholder="recherche">
+            </div>
+        </div>
+        <table id="" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <!-- <th width="1%"></th> -->
+                    <th width="1%" data-orderable="false"></th>
+                    <th class="text-nowarp">Libelle</th>
+                    <th class="text-nowarp">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="odd gradeX" dir-paginate="Profil in ListeProfil|itemsPerPage:numeroAfficher|filter:numero">
+                    <!-- <td width="1%" class="f-s-600 text-inverse">1</td> -->
+                    <td width="1%" class="with-img"><i class="fas fa-list"></i></td>
+                    <td>{{Profil.Libelle}}</td>
+                    <td>
+                        <a ng-if="checkDroit(2)" href="#/Update-Profil/{{Profil.IdProfil}}" class="" title="Modifier" type="button">
+                            <i style="font-size: x-large;" class="fa fa-edit text-warning"></i>
+                        </a>
+                        <a href="" ng-click="SuppressionProfil(Profil.IdProfil)" class="" title="Supprimer" type="button">
+                          <i style="font-size: x-large;" class="fa fa-trash text-danger"></i>
+                        </a>
+                        <a href="" ng-click="getListeModuleDroit(Profil.IdProfil)" class="" title="Modifier module droit" data-toggle="modal" data-target="#exampleModal" type="button">
+                          <i style="font-size: x-large;" class="fa fa-toggle-on text-info"></i>
+                        </a>
+                      </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex bd-highlight" ng-show="ListeModule.length > 0">
+            <div class="p-2 bd-highlight ml-auto">
+            <dir-pagination-controls on-page-change="pageChangeHandler(newPageNumber)"  max-size="5" direction-links="true" boundary-links="true" ></dir-pagination-controls>
+            </div>
+        </div>
+    </div>
+    <!-- end panel-body -->
+</div>
+<!-- end panel -->
+ 
+  <!-- Button trigger modal -->
+</section>
+<section ng-init="InitialiseEditionModule()">
+   <!-- Modal -->
+   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #1565C0 !important;">
+          <h5 class="modal-title text-white" id="exampleModalLabel">Edition profil</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="form-row">
+            
+            <div class="col-md-12" ng-repeat-start="module in ListeModuleParent">
+              <input type='checkbox' data-toggle='collapse' ng-model="module.etat" ng-click="getlisteSousModule(module.IdModule)" data-target='#m{{module.IdModule}}'> {{module.Libelle}} {{getlisteSousModule(module.IdModule)}}
+            </div>
+            
+            <div class="col-md-12" ng-repeat-end id='m{{module.IdModule}}' class="collapse div1 {{module.etat == true ? 'show' : ''}}" ng-if="module.etat == true">
+              <div ng-repeat="sousModule in ListeSousModule[module.IdModule]">
+                  <input class="ml-3" type='checkbox' ng-model="sousModule.etat"> {{sousModule.Libelle}}
+
+                  <div ng-repeat="Droit in ListeDroitSousModule[sousModule.IdModule] | orderBy: 'IdDroit' as filtered_result track by $index" ng-if="sousModule.etat == true">
+                    <input class="ml-5" type='checkbox' ng-model="Droit.etat"> {{Droit.Libelle}}
+                </div>
+              </div>
+            </div>  
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" ng-click="ConfirmerEditionModuleDroit()" ng-disabled="FormProfil.$invalid || error==true" type="submit">
+            <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider</button>
+          <button class="btn btn-danger" data-dismiss="modal" aria-label="Close"><i
+            class="fa fa-fw fa-lg fa-times-circle"></i><span aria-hidden="true">Annuler</span></button>
+        </div>          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,198 @@
+<section ng-init="InitialiseBeneficiaireG()">
+  <div class="app-title">
+    <div>
+      <h1><i class="icon fa fa-ellipsis-h mr-2"></i>{{Titre}}</h1>
+    </div>
+  </div>
+
+    <!-- begin breadcrumb -->
+    <ol class="breadcrumb pull-right">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+          <li class="breadcrumb-item"><a href="#/Dashboard">Tableau de bord</a></li>
+          <li class="breadcrumb-item"><a href="javascript:;">{{Titre}}</a></li>
+          <li class="breadcrumb-item active">Liste des bénéficiaires</li>
+      </ol>
+      <!-- end breadcrumb -->
+    
+      <!-- begin page-header -->
+      <h1 class="page-header"> <small><br></small></h1>
+      <!-- end page-header -->
+
+
+      <!-- begin panel -->
+    <div class="panel panel-success">
+        <!-- begin panel-heading -->
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-info" data-click="panel-reload" ng-click="getListeBeneficiaire()"><i class="fa fa-redo"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                <!-- <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a> -->
+            </div>
+            <h4 class="panel-title">Liste des bénéficiaires</h4>
+        </div>
+        <!-- end panel-heading -->
+        <!-- begin panel-body -->
+        <div class="panel-body">
+            <div class="d-flex bd-highlight mb-3" >
+                <div class="p-2 mr-auto bd-highlight">
+                  <select name="" ng-model="numeroAfficher" class="custom-select custom-select-sm">
+                    <option selected value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                </div>
+                <div class="p-2 bd-highlight">
+                  <a ng-if="checkDroit(1)" href="" class="btn btn-sm btn-success" data-toggle="modal" data-target="#exampleModal"
+                    type="button" ng-click="InitialiseDecaissement()"><i class="fas fa-plus-circle"></i> Ajouter un bénéficiaire</a>
+                  <a class="btn btn-sm btn-outline-success" type="button" data-click="panel-reload" ng-click="getListeBeneficiaire()" href=""><i class="fa fa-refresh"></i></a>
+                </div>
+                <div class="p-2 bd-highlight">
+                  <input type="search" class="form-control form-control-sm" ng-keyup="myFunction()" id="numero" ng-model="numero" placeholder="recherche">
+                </div>
+              </div>
+            <table id="" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <!-- <th width="1%"></th> -->
+                        <th width="1%" data-orderable="false"></th>
+                        <th class="text-nowrap">Nom</th>
+                        <th class="text-nowrap">Type bénéficiaire</th>
+                        <th class="text-nowrap">Type pièce</th>
+                        <th class="text-nowrap">Numéro de la pièce</th>
+                        <th class="text-nowrap">Numéro de téléphone</th>
+                        <th class="text-nowrap">Date création</th>
+                        <th class="text-nowrap">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="odd gradeX" dir-paginate="Beneficiaire in ListeBeneficiaire|itemsPerPage:numeroAfficher|filter:numero">
+                        <!-- <td width="1%" class="f-s-600 text-inverse">1</td> -->
+                        <td width="1%" class="with-img"><i class="fas fa-list"></i></td>
+                        <td>{{Beneficiaire.Nom}}</td>
+                        <td>{{getTypeBeneficiaire(Beneficiaire.IdTyb)}}</td>
+                        <td>{{Beneficiaire.IdTyp !='' ? getTypePiece(Beneficiaire.IdTyp) : "Aucun(e)"}}</td>
+                        <td>{{Beneficiaire.NumeroPiece !='' ? Beneficiaire.NumeroPiece : "Aucun(e)"}}</td>
+                        <td>{{Beneficiaire.Telephone !='' ? Beneficiaire.Telephone : "Aucun(e)"}}</td>
+                        <td>{{getDateTimeFormatFrensh(Beneficiaire.Datecreation)}}</td>
+                        <td>
+                            <a ng-if="checkDroit(2)" href="" data-toggle="modal" data-target="#exampleModal" ng-click="getBeneficiaire(Beneficiaire.IdBeneficiaire)">
+                            <i class="fa fa-pencil-square-o mr-2" style="color:blue;font-size: 20px;" aria-hidden="true"></i>
+                            </a>
+                            <a ng-if="checkDroit(3)" href="" ng-click="SuppressionBeneficiaire(Beneficiaire.IdBeneficiaire)">
+                            <i class="fa fa-trash" style="color:red;font-size: 20px;" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex bd-highlight" ng-show="ListeBeneficiaire.length > 0">
+        
+                <div class="p-2 bd-highlight ml-auto">
+                  <dir-pagination-controls on-page-change="pageChangeHandler(newPageNumber)"  max-size="5" direction-links="true" boundary-links="true" ></dir-pagination-controls>
+                </div>
+              </div>
+        </div>
+        <!-- end panel-body -->
+    </div>
+    <!-- end panel -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #1565C0 !important;">
+          <h5 class="modal-title text-white" id="exampleModalLabel">Edition bénéficiaire</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form name="FormBeneficiaire" novalidate>
+            <div class="form-group" ng-if="Beneficiaire.IdTyb ==2">
+              <label for="message-text" class="col-form-label">Réference <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="Reference" placeholder="Reference" ng-model="Beneficiaire.Reference" ng-pattern="regex" required>
+              <span style="color:red;" ng-show="FormBeneficiaire.Reference.$dirty && FormBeneficiaire.Reference.$invalid">Champ obligatoire ou caractère invalide</span>
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Bénéficiaire <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="Nom" placeholder="Beneficiaire" ng-model="Beneficiaire.Nom" ng-pattern="regexCote" required>
+              <span style="color:red;" ng-show="FormBeneficiaire.Nom.$dirty && FormBeneficiaire.Nom.$invalid">Champ obligatoire ou caractère invalide</span>
+            </div>
+            <div class="form-group">
+              <label class="control-label">Type bénéficiaire <span class="text-danger">*</span></label>
+              <select class="form-control" name="IdTyb" id="IdTyb" ng-model="Beneficiaire.IdTyb" required>
+                <option ng-repeat="TypeBeneficiaire in ListeTypeBeneficiaire" value="{{TypeBeneficiaire.IdTypeBeneficiaire}}">{{TypeBeneficiaire.Libelle}}</option>
+              </select>
+            </div>
+            <div class="form-group" ng-if="Beneficiaire.IdTyb ==1">
+              <label class="control-label">Type de pièces <span class="text-danger">*</span></label>
+              <select  class="form-control" name="IdTyp" id="IdTyp" ng-model="Beneficiaire.IdTyp" required>
+                <option ng-repeat="TypePiece in ListeTypePiece" value="{{TypePiece.IdTypePiece}}"> {{TypePiece.Libelle}} </option>
+              </select>
+            </div>
+            <div class="form-group" ng-if="Beneficiaire.IdTyb ==1">
+              <label class="control-label">Numero de pièces <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="NumeroPiece" ng-model="Beneficiaire.NumeroPiece" placeholder="C00207895F" ng-pattern="regex" required>
+              <span style="color:red;" ng-show="FormBeneficiaire.NumeroPiece.$dirty && FormBeneficiaire.NumeroPiece.$invalid">Champ obligatoire ou caractère invalide</span>
+            </div>
+            <div class="form-group" ng-if="Beneficiaire.IdTyb !=3">
+              <label for="message-text" class="col-form-label">Email </label>
+              <input type="email" class="form-control" name="Empty1" placeholder="Email" ng-model="Beneficiaire.Empty1"  required>
+              <span style="color:red" ng-show="FormBeneficiaire.Empty1.$dirty && FormBeneficiaire.Empty1.$invalid">Veuillez saisir un e-mail valide, format xxx@yyy.zzz</span>
+            </div>
+            <div class="form-group col-md-12">Ajouter un numéro de téléphone ? <input type="checkbox" ng-model="myVar" ng-checked="myVar || Beneficiaire.NumeroBeneficiaire.length > 0" ng-change="Beneficiaire.NumeroBeneficiaire=''"></div>
+            <div class="form-group" ng-if="myVar || Beneficiaire.NumeroBeneficiaire.length > 0">
+              <label class="control-label">Téléphone <span class="text-danger">*</span></label>
+              <input type="tel" id="telephone"  class="form-control" name="NumeroBeneficiaire" ng-model="Beneficiaire.Telephone" required>
+              <span style="color:red;" ng-show="FormBeneficiaire.NumeroBeneficiaire.$dirty && FormBeneficiaire.NumeroBeneficiaire.$invalid">Champ obligatoire ou caractère invalide</span>
+              <p id="output"></p>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button name="Valider" value="Valider" ng-click="ValiderEditionBeneficiaire()" class="btn btn-success"  type="submit" 
+            ng-disabled="FormBeneficiaire.Nom.$invalid || FormBeneficiaire.IdTyb.$invalid || FormBeneficiaire.IdTyp.$invalid || FormBeneficiaire.NumeroPiece.$invalid  || FormBeneficiaire.Empty1.$invalid || FormBeneficiaire.Reference.$invalid || FormBeneficiaire.NumeroBeneficiaire.$invalid"><i
+            class="fa fa-fw fa-lg fa-check-circle"></i>Valider</button>
+        <button class="btn btn-danger" ng-click="InitialiseBeneficiaire()" data-dismiss="modal" aria-label="Close"><i
+            class="fa fa-fw fa-lg fa-times-circle"></i><span aria-hidden="true">Annuler</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+</section>
+
+<!---masque de saisir-->
+<script>
+  var input_phone = document.querySelector("#telephone"),
+  output = document.querySelector("#output");
+
+var iti = window.intlTelInput(input_phone, {
+  nationalMode: true,
+  initialCountry: "auto",
+      geoIpLookup: function(callback) {
+        $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+          var countryCode = (resp && resp.country) ? resp.country : "CI";
+          callback(countryCode);
+        });
+      },
+  utilsScript: "../Js/utils.js?1603274336113"// placeholderinternational
+});
+
+var handleChange = function() {
+  var text_phone = iti.getNumber()
+     document.querySelector("#telephone").value = text_phone;
+  var text = (iti.isValidNumber()) ? "Numero valid: " + iti.getNumber() : "Veuillez entrer un numéro valid";
+  var textNode = document.createTextNode(text);
+  output.innerHTML = "";
+  output.appendChild(textNode);
+  
+};
+
+// listen to "keyup", but also "change" to update when the user selects a country
+input_phone.addEventListener('change', handleChange);
+input_phone.addEventListener('keyup', handleChange);
+</script>

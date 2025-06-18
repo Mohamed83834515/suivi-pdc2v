@@ -1,0 +1,41 @@
+<section ng-init="InitialiseEditionProfil()">
+  <div class="app-title">
+    <div>
+      <h1><i class="icon fa fa-users mr-2"></i>{{Titre}}</h1>
+      <p>Edition</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><i class="icon fa fa-users fa-lg"></i></li>
+      <li class="breadcrumb-item"><a href="#/Profil">Profils</a></li>
+    </ul>
+  </div>
+  <!-- etape 1 ajouter utilisateur -->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tile">
+        <h3 class="tile-title"></h3>
+        <div class="tile-body">
+          <form class="form-row" name="FormUpdate" novalidate>
+            <div class="form-group col-md-12">
+              <label class="control-label">Libelle<span class="text-danger">*</span></label>
+              <div class="">
+                <input type="name" name="Libelle" class="form-control " placeholder="Libelle" ng-model="Profil.Libelle" required>
+              </div>
+            </div>
+          
+        </div>
+        <div class="tile-footer">
+          <button name="Valider" value="Valider" class="btn btn-sm btn-success" ng-click="ValiderEditionProfil()" type="submit" ng-disabled="FormUpdate.$invalid || error==true">
+            <i class="fa fa-fw fa-lg fa-check-circle"></i>Valider
+          </button>
+          <a href="#/Profil" type="button" class="btn btn-sm btn-danger">
+            <i class="fa fa-fw fa-lg fa-times-circle"></i>Annuler
+          </a>
+        </div>
+      </form>
+      </div>
+    </div>
+    <div class="clearix"></div>
+  </div>
+
+</section>
